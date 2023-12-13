@@ -1,0 +1,29 @@
+{
+	"name": "somms/bv2observation",
+	"description": "Import information from GV Gorosti to Observation.org",
+	"minimum-stability": "beta",
+	"license": "proprietary",
+	"authors": [
+		{
+			"name": "Julio Rabadán González",
+			"email": "julio@somms.net"
+		}
+	],
+	"require": {
+		"academe/proj4php": "0.6.1",
+		"splitbrain/php-cli": "1.2.1",
+		"ogrrd/csv-iterator": "1.1.0",
+		"duzun/hquery": "2.2.0",
+		"snag-php-nominatim/snag-php-nominatim": "dev-master",
+		"guzzlehttp/guzzle": "^7.8",
+		"somms/phpkew": "^0.9.0@beta",
+        "ext-pdo": "*",
+		"symfony/yaml": "^7.0",
+		"php-di/php-di": "^7.0"
+    },
+	"autoload": {
+		"psr-4" : {
+			"Somms\\BV2Observation\\" : "src/"
+		}
+	}
+}

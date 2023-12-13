@@ -1,0 +1,15 @@
+default:
+  name: 'Verificación de BV Flora con POWO'
+  remote:
+    processor: POWO\POWOSpeciesProcessor
+  input:
+    type: datasource
+    name: bv_flora_database # Datasource filename .yml
+    parser: Forum4Images\BV\FloraSpeciesParser
+  output_ok:
+    type: csv
+    path: ./data/output/BV_Flora-POWO_ok.csv
+  output_errors:
+    type: csv
+    path: ./data/output/BV_Flora-POWO_error.csv
+

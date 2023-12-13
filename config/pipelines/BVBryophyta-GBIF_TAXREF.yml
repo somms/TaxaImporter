@@ -1,0 +1,17 @@
+default:
+  name: 'Verificación de Briófitos BV con TAXREF'
+  remote:
+    processor: GBIF\GBIFSpeciesProcessor
+    options:
+      datasetKey: 0e61f8fe-7d25-4f81-ada7-d970bbb2c6d6 # TAXREF reference guid in GBIF https://www.gbif.org/dataset/0e61f8fe-7d25-4f81-ada7-d970bbb2c6d6
+  input:
+    type: datasource
+    name: bv_bryophyta_csv_dump # Datasource filename .yml
+    parser: Forum4Images\BV\FloraSpeciesParser
+  output_ok:
+    type: csv
+    path: ./data/output/BV_Bryophyta-GBIF_ok.csv
+  output_errors:
+    type: csv
+    path: ./data/output/BV_Bryophyta-GBIF_error.csv
+
