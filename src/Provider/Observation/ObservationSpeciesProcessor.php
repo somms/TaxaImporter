@@ -9,15 +9,24 @@ namespace Somms\BV2Observation\Provider\Observation;
 
 
 use Somms\BV2Observation\Data\Species;
+use Somms\BV2Observation\DataOutput\DataOutputInterface;
 use Somms\BV2Observation\Parser\ISpeciesParser;
 use Somms\BV2Observation\Source\DataSourceInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ObservationSpeciesProcessor extends \Somms\BV2Observation\Processor\SpeciesProcessor{
 
-    function __construct(ISpeciesParser $inputSpeciesParser, DataSourceInterface $inputSource, $okOutputFilePath, $errorOutputFilePath, $options = [])
+    function __construct(ISpeciesParser $inputSpeciesParser, DataSourceInterface $inputSource, EventDispatcherInterface $eventDispatcher,  $options = [])
     {
-        parent::__construct($inputSpeciesParser, new ObservationSpeciesParser(), $inputSource, $okOutputFilePath, $errorOutputFilePath, $options);
+        if (isset($options['datasource'])){
+            parent::__construct($inputSpeciesParser, new ObservationDBSpeciesParser(), $inputSource, $eventDispatcher,  $options);
 
+        }
+        else{
+            parent::__construct($inputSpeciesParser, new ObservationWebSpeciesParser(), $inputSource, $eventDispatcher,  $options);
+
+
+        }
     }
     function getRemoteSpecies(Species $species)
     {

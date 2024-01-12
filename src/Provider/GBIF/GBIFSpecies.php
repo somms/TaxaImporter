@@ -4,7 +4,7 @@ namespace Somms\BV2Observation\Provider\GBIF;
 
 use duzun\hQuery;
 use Somms\BV2Observation\Parser\ISpeciesParser;
-use Somms\BV2Observation\Provider\Observation\ObservationSpeciesParser;
+use Somms\BV2Observation\Provider\Observation\ObservationWebSpeciesParser;
 
 class GBIFSpecies extends \Somms\BV2Observation\Data\RemoteSpecies
 {
@@ -16,7 +16,8 @@ class GBIFSpecies extends \Somms\BV2Observation\Data\RemoteSpecies
         $datasetKey = $options['datasetKey'] ?? 'd7dddbf4-2cf0-4f39-9b2a-bb099caae36c';
 
 
-        $searchString = str_replace([' indet.', ' spec.'], '', $this->scientificName);
+        $GBIFscientificName = str_replace([' indet.', ' spec.'], '', $this->scientificName);
+        $searchString = $GBIFscientificName;
         if ($author != null){
             $searchString .= ' ' . $author;
         }
@@ -30,9 +31,13 @@ class GBIFSpecies extends \Somms\BV2Observation\Data\RemoteSpecies
                 foreach ($data['results'] as $result) {
                     $synonymData = false;
                     // Verificamos si la especie está aceptada
-                    if ($result['taxonomicStatus'] != 'ACCEPTED' || $result['origin'] != 'SOURCE') {
+                    if ($result['taxonomicStatus'] != 'ACCEPTED' || $result['origin'] != 'SOURCE' ||
+                        $result['canonicalName'] != $GBIFscientificName
+
+                    ) {
+
                         if ($result['taxonomicStatus'] == 'SYNONYM' &&
-                            ($result['key'] == ($result['nubKey'] ?? ''))
+                            ($result['key'] == ($result['nubKey'] ?? '')) && $result['canonicalName'] == $GBIFscientificName
                         ) {
                             // Esto es un sinónimo y tendríamos que traernos el sinónimo
                             $synonymData = hQuery::fromUrl(
@@ -55,16 +60,16 @@ class GBIFSpecies extends \Somms\BV2Observation\Data\RemoteSpecies
         return false;
     }
 
-    protected function validMatch($originalSpeciesName, $foundSpeciesName)
+    protected function validMatch() : bool
     {
         $result = false;
 
-        if ($originalSpeciesName == $foundSpeciesName) {
-            $result = $foundSpeciesName;
+        if ($this->scientificName == $this->remoteScientificName) {
+            $result = true;
         } else {
-            $stripedOriginals = str_replace([' indet.', ' spec.'], '', [$originalSpeciesName, $foundSpeciesName]);
+            $stripedOriginals = str_replace([' indet.', ' spec.'], '', [$this->scientificName, $this->remoteScientificName]);
             if ($stripedOriginals[0] == $stripedOriginals[1]) {
-                $result = $foundSpeciesName;
+                $result = true;
             }
         }
 

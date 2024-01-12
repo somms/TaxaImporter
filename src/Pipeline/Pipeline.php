@@ -2,6 +2,9 @@
 
 namespace Somms\BV2Observation\Pipeline;
 
+use Somms\BV2Observation\DataOutput\DataOutputInterface;
+use Somms\BV2Observation\DataOutput\DataOutputService;
+use Somms\BV2Observation\Event\DataOutputEventSubscriber;
 use Somms\BV2Observation\Parser\IParser;
 use Somms\BV2Observation\Parser\IProviderParser;
 use Somms\BV2Observation\Processor\Processor;
@@ -16,18 +19,18 @@ class Pipeline
     protected array $remoteProcessorOptions;
     protected DataSourceInterface $inputDatasource;
     protected string $inputParser;
-    protected string $outputOk;
-    protected string $outputError;
+    protected array $outputOkConfig;
+    protected array $outputErrorConfig;
 
-    public function __construct(string $pipelineName, string $remoteProcessorName, array $remoteProcessorOptions, DataSourceInterface $inputDatasource, string $inputParserName, string $outputOk, string $outputError)
+    public function __construct(string $pipelineName, string $remoteProcessorName, array $remoteProcessorOptions, DataSourceInterface $inputDatasource, string $inputParserName, array $outputOkConfig, array $outputErrorConfig)
     {
         $this->pipelineName = $pipelineName;
         $this->remoteProcessorName = $remoteProcessorName;
         $this->remoteProcessorOptions = $remoteProcessorOptions;
         $this->inputDatasource = $inputDatasource;
         $this->inputParser = $inputParserName;
-        $this->outputOk = $outputOk;
-        $this->outputError = $outputError;
+        $this->outputOkConfig = $outputOkConfig;
+        $this->outputErrorConfig = $outputErrorConfig;
     }
 
     /**
@@ -71,19 +74,19 @@ class Pipeline
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getOutputOk()
+    public function getOutputOkConfig() : array
     {
-        return $this->outputOk;
+        return $this->outputOkConfig;
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getOutputError()
+    public function getOutputErrorConfig() : array
     {
-        return $this->outputError;
+        return $this->outputErrorConfig;
     }
 
 

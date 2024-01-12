@@ -6,6 +6,7 @@ use duzun\hQuery;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Somms\BV2Observation\Data\Species;
+use Somms\BV2Observation\DataOutput\DataOutputInterface;
 use Somms\BV2Observation\Parser\ISpeciesParser;
 use Somms\BV2Observation\Processor\SpeciesProcessor;
 use Somms\BV2Observation\Provider\Forum4Images\CSV\Species4ImagesCSVSource;
@@ -16,32 +17,11 @@ use Somms\BV2Observation\Source\DataSourceInterface;
 class GBIFSpeciesImportProcessor extends ObservationSpeciesProcessor
 {
 
-    function __construct(ISpeciesParser $inputSpeciesParser, DataSourceInterface $inputSource, $okOutputFilePath, $errorOutputFilePath, $options = [])
+    function __construct(ISpeciesParser $inputSpeciesParser, DataSourceInterface $inputSource, $eventDispatcher, $options = [])
     {
-        parent::__construct($inputSpeciesParser, $inputSource, $okOutputFilePath, $errorOutputFilePath, $options);
+        parent::__construct($inputSpeciesParser, $inputSource, $eventDispatcher, $options);
 
     }
-
-/*    protected function processItem($inputRow, $species)
-    {
-        // TODO: Implement postProcessSpecies() method.
-        if($this->importGBIFSpecies($species)){
-            if(PHP_SAPI == 'cli')
-            {
-                echo 'Especie encontrada: ' . $species->getScientificName() . "\n";
-            }
-
-            $inputRow['obs_species_id'] = $species->getObservationId();
-            $this->okOutput->fputcsv($inputRow, Species4ImagesCSVSource::DEFAULT_DELIMITER);
-        }
-        else{
-            if(PHP_SAPI == 'cli')
-            {
-                echo 'Especie no importada: ' . $species->getScientificName() . "\n";
-            }
-            $this->errorOutput->fputcsv($inputRow, Species4ImagesCSVSource::DEFAULT_DELIMITER);
-        }
-    }*/
 
     function getRemoteRow(Species $species)
     {
@@ -102,6 +82,6 @@ class GBIFSpeciesImportProcessor extends ObservationSpeciesProcessor
             $result = false;
         }
 
-      return $result;
+      return parent::getRemoteSpecies($species);
     }
 }

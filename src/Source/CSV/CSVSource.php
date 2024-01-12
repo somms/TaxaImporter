@@ -22,9 +22,15 @@ class CSVSource implements DataSourceInterface{
   const       DEFAULT_ENCLOSURE   =   '"';
   const       DEFAULT_ESCAPE      =   '\\';
 
-  function __construct($fileName, $keyFieldname, $delimiter = self::DEFAULT_DELIMITER, $enclosure = self::DEFAULT_ENCLOSURE, $escape = self::DEFAULT_ESCAPE){
+    private string $authorField;
+
+    private string $idField;
+
+    function __construct($fileName, $keyFieldname, $authorField = '', $idField = '', $delimiter = self::DEFAULT_DELIMITER, $enclosure = self::DEFAULT_ENCLOSURE, $escape = self::DEFAULT_ESCAPE){
     $this->fileName = $fileName;
     $this->keyFieldname = $keyFieldname;
+    $this->authorField = $authorField;
+    $this->idField = $idField;
     $this->CSVCollection = new CSVCollection($fileName, $delimiter, $enclosure, $escape);
     $this->CSVCollection->useFirstRowAsHeader();
   }
@@ -41,7 +47,7 @@ class CSVSource implements DataSourceInterface{
         $result = false;
         // Aquí se selecciona la columna con la especie
         if(count($item)){
-            $result = $item[$this->keyFieldname];
+            $result = trim ($item[$this->keyFieldname] . ' ' . ($this->authorField != '' ? $item[$this->authorField] : ''));
         }
 
         return $result;

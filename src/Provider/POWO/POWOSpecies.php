@@ -44,7 +44,7 @@ class POWOSpecies extends RemoteSpecies
                     // Nos traemos los datos del sinónimo
                     return $this->queryRemoteSource(
                         $synonymData[Name::FULL_NAME],
-                        $synonymData[Name::AUTHOR]
+                        $synonymData[Name::AUTHOR] ?? null
                     );
                 }
                 elseif($author!= null){
@@ -67,18 +67,12 @@ class POWOSpecies extends RemoteSpecies
         return false;
     }
 
-    protected function validMatch($originalSpeciesName, $foundSpeciesName)
+    protected function validMatch(): bool
     {
         $result = false;
 
-        if($originalSpeciesName == $foundSpeciesName){
-            $result = $foundSpeciesName;
-        }
-        else{
-            $stripedOriginals = str_replace([' indet.', ' spec.'], '', [$originalSpeciesName, $foundSpeciesName]);
-            if($stripedOriginals[0] == $stripedOriginals[1]){
-                $result = $foundSpeciesName;
-            }
+        if($this->remoteId != ''){
+            $result = true;
         }
 
         return $result;

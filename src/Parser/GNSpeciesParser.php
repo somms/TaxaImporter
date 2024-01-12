@@ -43,8 +43,8 @@ class GNSpeciesParser extends SpeciesParser
                 return new Species($this->input, '', '');
             }
 
-            if(isset($resultados['authorship']['normalized'])){
-                $authorship = $resultados['authorship']['normalized'];
+            if(isset($resultados['authorship']['verbatim'])){
+                $authorship = $resultados['authorship']['verbatim'];
             }
             $species = new Species($scientificName, '', $authorship);
 

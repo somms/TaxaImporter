@@ -1,0 +1,17 @@
+default:
+  name: 'Verificación de BV Flora con Observation mediante base de datos'
+  remote:
+    processor: Observation\ObservationSpeciesProcessor
+    options:
+      datasource: obs_flora_database
+  input:
+    type: datasource
+    name: bv_flora_unmatched_db # Datasource filename .yml
+    parser: Forum4Images\BV\FloraSpeciesParser
+  output_ok:
+    type: csv
+    path: ./data/output/BV_Flora-Unmatched-Observation_ok.csv
+  output_errors:
+    type: csv
+    path: ./data/output/BV_Flora-Unmatched-Observation_error.csv
+

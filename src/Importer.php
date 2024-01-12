@@ -13,6 +13,7 @@ require __DIR__ . '/../vendor/autoload.php';
 use DI\Attribute\Inject;
 use DI\Container;
 use Somms\BV2Observation\Parser\ISpeciesParser;
+use Somms\BV2Observation\Pipeline\PipelineManager;
 use Somms\BV2Observation\Pipeline\PipelineService;
 use Somms\BV2Observation\Provider\Forum4Images\BV\FloraSpeciesParser;
 use Somms\BV2Observation\Provider\Forum4Images\GorostiCSVLocationProcessor;
@@ -31,10 +32,12 @@ use splitbrain\phpcli\Options;
 class Importer extends CLI
 {
     private $processorService;
+    private PipelineManager $pipelineManager;
 
-    public function __construct(ProcessorService $processorService, $autocatch = true, )
+    public function __construct(ProcessorService $processorService, PipelineManager $pipelineManager, $autocatch = true, )
     {
         $this->processorService = $processorService;
+        $this->pipelineManager = $pipelineManager;
         parent::__construct($autocatch);
     }
 
@@ -150,8 +153,8 @@ class Importer extends CLI
         $args = $options->getArgs();
         if($pipelineName = $options->getOpt('pipeline')){
             // Cargamos los valores desde el fichero de configuración
-            $processor = $this->processorService->getProcessor($pipelineName);
-
+            $pipeline = $this->pipelineManager->getPipeline($pipelineName);
+            $processor = $this->processorService->getProcessor($pipeline);
         }
         else{
             if (!in_array($args[1], ['GBIF', 'POWO', 'Observation'])) {

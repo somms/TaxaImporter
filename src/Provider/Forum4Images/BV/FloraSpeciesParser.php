@@ -9,6 +9,9 @@ class FloraSpeciesParser extends GNSpeciesParser
 {
     public function preprocessInput($input)
     {
+        if(is_array($input)){
+            $input = $input['cat_name'];
+        }
         if(str_starts_with($input, 'CULT')){
             return false;
         }

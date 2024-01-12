@@ -1,0 +1,17 @@
+default:
+  name: 'Verificación de Briófitos BV con Observation'
+  remote:
+    processor: Observation\ObservationSpeciesProcessor
+    options:
+      datasource: obs_flora_database
+  input:
+    type: datasource
+    name: bv_bryophyta_csv_dump # Datasource filename .yml
+    parser: Forum4Images\BV\FloraSpeciesParser
+  output_ok:
+    type: csv
+    path: ./data/output/BV_Bryophyta-Obs_ok.csv
+  output_errors:
+    type: csv
+    path: ./data/output/BV_Bryophyta-Obs_error.csv
+

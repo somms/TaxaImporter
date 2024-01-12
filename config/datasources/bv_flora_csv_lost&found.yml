@@ -1,0 +1,5 @@
+bv_flora_csv_lost&found:
+  type: 'csv'
+  delimiter: ';'
+  path: './data/input/BV_Flora&Bryophyta-Lost&Found.csv'
+  key_fieldname: 'cat_name'

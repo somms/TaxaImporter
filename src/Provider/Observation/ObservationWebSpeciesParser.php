@@ -12,7 +12,7 @@ use Somms\BV2Observation\Data\RemoteSpecies;
 use Somms\BV2Observation\Data\Species;
 use Somms\BV2Observation\Parser\SpeciesParser;
 
-class ObservationSpeciesParser extends SpeciesParser {
+class ObservationWebSpeciesParser extends SpeciesParser {
 
   /**
    * @return RemoteSpecies

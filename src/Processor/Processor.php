@@ -27,7 +27,7 @@ abstract class Processor {
 
   protected $parsedItems;
 
-  protected array $options = [];
+  public array $options = [];
 
     function __construct(IParser $inputParser, $options = []){
     $this->inputParser = $inputParser;
@@ -57,26 +57,36 @@ abstract class Processor {
           continue;
       }
       echo "$currentIndex/$total ";
+      $this->processRow($inputRow, $options);
+    }
+
+    return $this->parsedItems;
+  }
+
+  public function processRow($inputRow, $options = []){
       $rawItemName = $this->getItemName($inputRow);
       if(PHP_SAPI == 'cli')
       {
-        echo 'Procesando item: ' . $rawItemName . "\n";
+          echo  str_replace('Somms\BV2Observation\Provider', '# ', get_class($this)). ' > Procesando item: ' . $rawItemName . "\n";
       }
 
       if(!$rawItemName){
           $this->discardedOutput($inputRow);
-          continue;
+          return false;
       }
       if(!array_key_exists($rawItemName, $this->parsedItems)){
-        $item = $this->preProcessRow($rawItemName, $inputRow);
-        if($result = $this->processItem($inputRow, $item, $options))
-        {
-            $inputRow = array_merge($inputRow, $result);
-            $this->okOutput($inputRow);
-        }
-        else{
-            $this->errorOutput($inputRow);
-        }
+          $item = $this->preProcessRow($rawItemName, $inputRow);
+          if($result = $this->processItem($inputRow, $item, $options))
+          {
+              $inputRow = array_merge($inputRow, $result);
+              $this->okOutput($inputRow);
+          }
+          else{
+              $inputRow = array_merge($inputRow, [
+                  'error_search' => $rawItemName
+              ]);
+              $this->errorOutput($inputRow);
+          }
           $this->parsedItems[$rawItemName] = $result;
       }else{
           if($result = $this->parsedItems[$rawItemName]){
@@ -87,9 +97,7 @@ abstract class Processor {
               $this->errorOutput($inputRow);
           }
       }
-    }
-
-    return $this->parsedItems;
+      return true;
   }
 
   abstract function okOutput($inputRow);

@@ -1,0 +1,5 @@
+bv_flora_csv_solved:
+  type: 'csv'
+  delimiter: ';'
+  path: './data/input/flora_solved.csv'
+  key_fieldname: 'cat_name'

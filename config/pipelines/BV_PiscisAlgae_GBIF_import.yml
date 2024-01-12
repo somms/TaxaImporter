@@ -1,0 +1,14 @@
+default:
+  name: 'Importación de especies que no están en Observation desde GBIF'
+  remote:
+    processor: Observation\GBIFSpeciesImportProcessor
+  input:
+    type: datasource
+    name: bv_gbif_peces_csv # Datasource filename .yml
+    parser: Forum4Images\BV\FloraSpeciesParser
+  output_ok:
+    type: csv
+    path: ./data/output/BV_PecesAlgas-GBIF_ok_import.csv
+  output_errors:
+    type: csv
+    path: ./data/output/BV_PecesAlgas-GBIF_error_import.csv

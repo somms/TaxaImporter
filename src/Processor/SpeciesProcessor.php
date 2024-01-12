@@ -9,6 +9,8 @@ namespace Somms\BV2Observation\Processor;
 
 
 use Somms\BV2Observation\Data\Species;
+use Somms\BV2Observation\DataOutput\DataOutputInterface;
+use Somms\BV2Observation\Event\ProcessorEvent;
 use Somms\BV2Observation\Parser\ISpeciesParser;
 use Somms\BV2Observation\Parser\SpeciesParser;
 use Somms\BV2Observation\Provider\Forum4Images\CSV\Species4ImagesCSVSource;
@@ -16,6 +18,7 @@ use Somms\BV2Observation\Provider\POWO\POWOSpeciesProcessor;
 use Somms\BV2Observation\Provider\POWO\POWOSpeciesParser;
 use Somms\BV2Observation\Source\CSV\CSVSource;
 use Somms\BV2Observation\Source\DataSourceInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 abstract class SpeciesProcessor extends Processor
 {
@@ -28,25 +31,17 @@ abstract class SpeciesProcessor extends Processor
      * @var DataSourceInterface
      */
     protected $inputSource;
-    /**
-     * @var \SplFileObject
-     */
-    protected $okOutput;
-    /**
-     * @var \SplFileObject
-     */
-    protected $errorOutput;
 
     /**
      * @var ISpeciesParser
      */
     protected $sourceSpeciesParser;
+    protected $eventDispatcher;
 
-    function __construct(ISpeciesParser $inputSpeciesParser, ISpeciesParser $sourceSpeciesParser, DataSourceInterface $inputSource, $okOutputFilePath, $errorOutputFilePath, $options = [])
+    function __construct(ISpeciesParser $inputSpeciesParser, ISpeciesParser $sourceSpeciesParser, DataSourceInterface $inputSource, EventDispatcherInterface $eventDispatcher, $options = [])
     {
         $this->inputSource = $inputSource;
-        $this->okOutput = new \SplFileObject($okOutputFilePath,'a');
-        $this->errorOutput = new \SplFileObject($errorOutputFilePath,'a');
+        $this->eventDispatcher = $eventDispatcher;
         $this->sourceSpeciesParser = $sourceSpeciesParser;
         parent::__construct($inputSpeciesParser, $options);
 
@@ -54,17 +49,23 @@ abstract class SpeciesProcessor extends Processor
 
     function errorOutput($inputRow)
     {
-        $this->errorOutput->fputcsv($inputRow, CSVSource::DEFAULT_DELIMITER);
+        $event = new ProcessorEvent($inputRow, $this);
+        $this->eventDispatcher->dispatch($event, ProcessorEvent::TYPE_ERROR);
     }
 
     function discardedOutput($inputRow)
     {
-        echo 'Entrada descartada, porque no cumple criterios de especie';
+        echo 'Entrada descartada, porque no cumple criterios de especie.' . "\n";
+        $inputRow['discarded'] = 1;
+        $event = new ProcessorEvent($inputRow, $this);
+        $this->eventDispatcher->dispatch($event, ProcessorEvent::TYPE_DISMISSED);
+
     }
 
     function okOutput($inputRow)
     {
-        $this->okOutput->fputcsv($inputRow, CSVSource::DEFAULT_DELIMITER);
+        $event = new ProcessorEvent($inputRow, $this);
+        $this->eventDispatcher->dispatch($event, ProcessorEvent::TYPE_OK);
     }
 
     /**
@@ -75,7 +76,7 @@ abstract class SpeciesProcessor extends Processor
      */
     protected function preProcessRow($rawItemName, $inputRow)
     {
-        $this->inputParser->setInput($rawItemName);
+        $this->inputParser->setInput($inputRow);
         return $this->inputParser->getSpecies();
     }
 
@@ -99,7 +100,7 @@ abstract class SpeciesProcessor extends Processor
     {
         $result = false;
         $species = $this->getRemoteSpecies($species);
-        if($species->populateFromRemote($this->sourceSpeciesParser, $options)){
+        if($species != null && $species->populateFromRemote($this->sourceSpeciesParser, $options)){
             if(PHP_SAPI == 'cli')
             {
                 echo 'Especie encontrada: ' . $species->getRemoteScientificName() . "\n";

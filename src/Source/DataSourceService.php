@@ -11,6 +11,8 @@ use Somms\BV2Observation\Source\Database\DatabaseDataSource;
 class DataSourceService
 {
     private $configService;
+    private $datasourceCache;
+
     public function __construct(ConfigService $configService)
     {
         $this->configService = $configService;
@@ -18,23 +20,39 @@ class DataSourceService
 
     public function getDataSource($datasourceName)
     {
-        $config = $this->configService->loadDatasourceConfig($datasourceName)[$datasourceName];
-        $sourceType = $config['type'];
+        if(!isset($this->datasourceCache[$datasourceName])) {
 
-        switch ($sourceType) {
-            case 'csv':
-                return new CSVSource(
-                    $config['path'], $config['key_fieldname'], $config['delimiter']
-                );
-            case 'database':
-                return new DatabaseDataSource(
-                    new PDO($config['dsn'], $config['username'], $config['password']),
-                    $config['table_name'],
-                    $config['key_fieldname']
-                );
-            // Puedes agregar más casos según tus necesidades
-            default:
-                throw new InvalidArgumentException('Tipo de fuente de datos no válido');
+
+            $config = $this->configService->loadDatasourceConfig($datasourceName)[$datasourceName];
+            $sourceType = $config['type'];
+
+            switch ($sourceType) {
+                case 'csv':
+                    $datasource =  new CSVSource(
+                        $config['path'], $config['key_fieldname'],
+                        $config['author_fieldname'] ?? '',
+                        $config['id_fieldname'] ?? '',
+                        $config['delimiter']
+                    );
+                    break;
+                case 'database':
+                    $datasource = new DatabaseDataSource(
+                        new PDO($config['dsn'], $config['username'], $config['password']),
+                        $config['table_name'],
+                        $config['key_fieldname'],
+                        $config['author_fieldname'] ?? '',
+                        $config['id_fieldname'] ?? ''
+                    );
+                    break;
+                // Puedes agregar más casos según tus necesidades
+                default:
+                    throw new InvalidArgumentException('Tipo de fuente de datos no válido');
+            }
+            $this->datasourceCache[$datasourceName] = $datasource;
         }
+        else{
+            $datasource = $this->datasourceCache[$datasourceName];
+        }
+        return $datasource;
     }
 }

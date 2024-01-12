@@ -25,7 +25,7 @@ abstract class RemoteSpecies extends Species
                 $this->remoteId = $remoteSpecies->getRemoteId();
                 $this->remoteScientificName = $remoteSpecies->getScientificName();
                 $this->remoteAuthor = $remoteSpecies->getAuthor();
-                $this->inRemote = true;
+                $this->inRemote = $this->validMatch();
             }
         }
 
@@ -96,5 +96,9 @@ abstract class RemoteSpecies extends Species
     public function setRemoteAuthor(string $remoteAuthor): void
     {
         $this->remoteAuthor = $remoteAuthor;
+    }
+
+    protected function validMatch():bool{
+        return true;
     }
 }

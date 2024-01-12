@@ -1,0 +1,15 @@
+default:
+  name: 'Verificación de Peces y Algas BV con IUCN'
+  remote:
+    processor: GBIF\GBIFSpeciesProcessor
+  input:
+    type: datasource
+    name: bv_peces_database # Datasource filename .yml
+    parser: Forum4Images\BV\FloraSpeciesParser
+  output_ok:
+    type: pipeline
+    path: BVPiscisAlgae-GBIF_Obs_DB
+  output_errors:
+    type: csv
+    path: ./data/output/BV_PecesAlgas-error.csv
+

@@ -1,0 +1,18 @@
+default:
+  name: 'Verificación de Peces y Algas BV con Obs_DB'
+  remote:
+    processor: Observation\ObservationSpeciesProcessor
+    options:
+      datasource: obs_species_database
+      author_search: false
+  input:
+    type: datasource
+    name: bv_gbif_peces_csv # Datasource filename .yml
+    parser: Forum4Images\BV\FloraSpeciesParser
+  output_ok:
+    type: csv
+    path: ./data/output/BV_PecesAlgas-Observation_ok.csv
+  output_errors:
+    type: pipeline
+    path: BV_PiscisAlgae_GBIF_import
+

@@ -19,7 +19,8 @@
 		"somms/phpkew": "^0.9.0@beta",
         "ext-pdo": "*",
 		"symfony/yaml": "^7.0",
-		"php-di/php-di": "^7.0"
+		"php-di/php-di": "^7.0",
+		"symfony/event-dispatcher": "^7.0"
     },
 	"autoload": {
 		"psr-4" : {

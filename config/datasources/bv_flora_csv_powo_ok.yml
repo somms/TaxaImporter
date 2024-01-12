@@ -1,0 +1,7 @@
+bv_flora_csv_powo_ok:
+  type: 'csv'
+  delimiter: ';'
+  path: './data/output/flora_ok.csv'
+  key_fieldname: 'name'
+  author_fieldname: 'author'
+  id_fieldname: 'fqId'
