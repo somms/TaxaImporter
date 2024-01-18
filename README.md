@@ -119,11 +119,11 @@ Place this file in /config/datasources/ folder.
 
 **`type`:** Datasource type: 'database', 'csv' or 'null' (only valid for chained pipelines)
 
-**`key_fieldname`:** The field containing the entry name (scientific name, for example)
+**`key_fieldname`:** The field containing the entry name (scientific name + authorship, for example)
 
-**`author_fieldname`:** The field containing the species authorship
+**`author_fieldname`:** The field containing the species authorship. Only mandatory for the Observation Species Processor, ignored by other processors.
 
-**`id_fieldname`:** The field containing the species unique identifier
+**`id_fieldname`:** The field containing the species unique identifier. Only mandatory for the Observation Species Processor, ignored by other processors.
 
 
 #### Database type parameters
@@ -171,7 +171,7 @@ There are several processors, depending on the operations to perform with the es
   - Finds a species match in Observation using a local database or their website. Authorship verification is only available with the database option
   - **Path**: /Observation/ObservationSpeciesProcessor
   - **Options**:
-    - `datasource`: The datasource config name to use for a database connection. If omitted, it will use the website to do the check. This datasource should be a database connection. CSV is not supported.
+    - `datasource`: The datasource config name to use for a database connection. If omitted, it will use the website to do the check. This datasource should be a database connection. CSV is not supported. The database should contain a table with the species download available in the "This Site > Downloads" menu of old.observation.org
     - `author_search`: If the Authorship is included in the species search to avoid problems with homonyms (two species with the same name). It will work only if the datasource parameter is included, because the website does not allow search by author-
 - **Observation GBIF Species Import Processor**:
   - Calls to the GBIF import species form in Observation.org, that will try to add the Species to Observation.org
