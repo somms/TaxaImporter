@@ -6,7 +6,7 @@ use Somms\BV2Observation\DataOutput\DataOutputService;
 use Somms\BV2Observation\DataOutput\IDataOutputService;
 use Somms\BV2Observation\Event\DataOutputEventSubscriber;
 use Somms\BV2Observation\Processor\Processor;
-use Somms\BV2Observation\Service\ProcessorService;
+use Somms\BV2Observation\Processor\ProcessorService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PipelineManager

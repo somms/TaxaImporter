@@ -1,6 +1,6 @@
 <?php
 
-namespace Somms\BV2Observation\Service;
+namespace Somms\BV2Observation\Processor;
 
 use Somms\BV2Observation\DataOutput\IDataOutputService;
 use Somms\BV2Observation\Event\DataOutputEventSubscriber;

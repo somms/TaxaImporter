@@ -7,6 +7,7 @@ use PDO;
 use Somms\BV2Observation\Service\ConfigService;
 use Somms\BV2Observation\Source\CSV\CSVSource;
 use Somms\BV2Observation\Source\Database\DatabaseDataSource;
+use Somms\BV2Observation\Source\Null\NullDataSource;
 
 class DataSourceService
 {
@@ -45,6 +46,9 @@ class DataSourceService
                     );
                     break;
                 // Puedes agregar más casos según tus necesidades
+                case 'null':
+                    $datasource = new NullDataSource();
+                    break;
                 default:
                     throw new InvalidArgumentException('Tipo de fuente de datos no válido');
             }

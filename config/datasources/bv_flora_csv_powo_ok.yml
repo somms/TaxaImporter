@@ -1,7 +1,7 @@
-bv_flora_csv_powo_ok:
-  type: 'csv'
-  delimiter: ';'
-  path: './data/output/flora_ok.csv'
-  key_fieldname: 'name'
-  author_fieldname: 'author'
-  id_fieldname: 'fqId'
+bv_flora_csv_powo_ok: # This is the datasource ID, and should match the filename
+  type: 'csv' # Datasource type: 'database', 'csv' or 'null'
+  delimiter: ';' # For csv type, the field delimiter character
+  path: './data/output/flora_ok.csv' # For csv type, the path to the file relative to the execution folder
+  key_fieldname: 'name' # The field containing the species name
+  author_fieldname: 'author' # The field containing the species authorship
+  id_fieldname: 'fqId' # The field containing the species unique identifier

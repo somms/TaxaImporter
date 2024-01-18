@@ -5,8 +5,8 @@ namespace Somms\BV2Observation\DataOutput;
 use Composer\XdebugHandler\Process;
 use Somms\BV2Observation\Pipeline\PipelineService;
 use Somms\BV2Observation\Processor\Processor;
-use Somms\BV2Observation\Service\IProcessorService;
-use Somms\BV2Observation\Service\ProcessorService;
+use Somms\BV2Observation\Processor\IProcessorService;
+use Somms\BV2Observation\Processor\ProcessorService;
 use splitbrain\phpcli\Exception;
 
 class DataOutputService implements IDataOutputService

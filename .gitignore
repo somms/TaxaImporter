@@ -1,2 +1,3 @@
 /data/output/*
 /vendor
+/config/pipelines/BV_PiscisAlgae_GBIF_import.yml
