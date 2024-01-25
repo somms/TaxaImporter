@@ -102,6 +102,9 @@ abstract class Processor {
                   echo " -> \033[31m CACHED \033[0m\n";
 
               }
+              $inputRow = array_merge($inputRow, [
+                  'output_species_name_author' => $rawItemName
+              ]);
               $this->errorOutput($inputRow);
           }
       }
