@@ -1,6 +1,10 @@
 # TaxaImporter
 
-   A tool for converting taxonomies from one source to another, and verifying it against taxonomical checklists
+   A tool for converting taxonomies from one source to another, and verifying it against taxonomical checklists. Currently, its supports Observation.org, Plants Of the World Online (POWO) and GBIF.org.  
+
+When faced with the challenge of importing biodiversity data from one external source to another, the first obstacle to overcome is always being able to locate and resolve differences in taxonomic criteria. This task can be really complex when you have a high number of entries, or the database does not have an optimal structure.
+
+TaxaImporter is a tool that allows you to automate a large part of the process, giving you enough flexibility to adapt to a large number of situations. 
 
 USAGE:
    Importer.php <OPTIONS> <COMMAND> ... <skip>
@@ -42,15 +46,15 @@ Let's break down the key components of the pipeline:
 4. **Output errors**
     - The output for processed data entries with errors: a csv file or another pipeline
 
-In summary, the pipeline is designed to verify and process data. It includes a remote source processor, an input source configuration, and configurations for handling both correctly processed data and errors. The pipeline represents a series of steps and configurations that collectively perform a specific data processing task. The actual processing logic would be implemented within the specified processor classes and parsers.
+In summary, the pipeline is designed to verify and process data. It includes a remote source processor, an input source configuration, and configurations for handling both correctly processed data and errors. The pipeline represents a series of steps and configurations that collectively perform a specific data processing task. The actual processing logic is implemented within the specified processor classes and parsers.
 
 ## Pipeline Definition File .yml
 
-This example file defines a pipeline, including input, outputs, and the processor configuration.
+Let's start with an example file that defines a pipeline, including input, outputs, and the processor configuration.
 
 ```yaml
 default: # Pipeline definition file, including input, outputs and the processor configuration
-  name: 'Verificación de Peces y Algas BV con Obs_DB' # Pipeline description
+  name: 'Fish and Algae against Observation with a local DB' # Pipeline description
   remote: # Remote source processor configuration
     processor: Observation\ObservationSpeciesProcessor # Processor class, including namespace path under /Provider
     options: # Optional. Processor options, that will depend on every Processor class.
@@ -58,16 +62,25 @@ default: # Pipeline definition file, including input, outputs and the processor 
       author_search: false # In this processor, use yes to restrict species search by author
   input: # Input source configuration. This will be ignored if this pipeline is uses as output of other pipeline
     type: datasource # Input source type. It can be "csv", "datasource"
-    name: bv_gbif_peces_csv # Datasource filename .yml
+    name: bv_fish_csv # Datasource filename .yml
     parser: Forum4Images\BV\FloraSpeciesParser # Species name parser for this source
   output_ok: # Output for the correctly processed data
     type: csv # Output type. It can be "csv" or "pipeline"
-    path: ./data/output/BV_PecesAlgas-Observation_ok.csv # The path to the output file for CSV, or the name of the pipeline config file
+    path: ./data/output/BV_PiscesAlgae-Observation_ok.csv # The path to the output file for CSV, or the name of the pipeline config file
   output_errors: # Output for the errors
     type: pipeline # Output type. It can be "csv" or "pipeline"
-    path: BV_PiscisAlgae_GBIF_import # The path to the output file for CSV, or the name of the pipeline config file
+    path: BV_PiscesAlgae_GBIF_import # The path to the output file for CSV, or the name of the pipeline config file
 ```
-Place this file in /config/pipelines/ folder.
+
+This file defines a pipeline that:
+- Looks for entries in Observation.org, using a local database with a copy of the Observation.org taxonomy
+- Gets entries from a CSV file (defined in the `bv_fish_csv` datasource file) coming from a Forum4Images based website (BV)
+- Sends found entries to a CSV file in the data/output/ folder
+- Sends error entries to another pipeline, BV_PiscesAlgae_GBIF_import, that will check the entries against the GBIF taxonomy backbone.
+
+You have to place this file in /config/pipelines/ folder to use it.
+
+Let's see every field in detail.
 
 ### Configuration parameters
 
@@ -112,8 +125,20 @@ obs_species_database: # This is the datasource ID, and should match the filename
   author_fieldname: 'author' # The field containing the species authorship
   id_fieldname: 'id' # The field containing the species unique identifier
 ```
+This example file defines a datasource that:
 
-Place this file in /config/datasources/ folder.
+- Is stored in a database
+- Can be accessed using the specified DSN string, username, and password.
+- Can be found in the specified database table
+- Has "name_scientific" as key fieldname (where the species name is stored)
+- Has "author" as authorship fieldname
+- Has "id" as species id field
+
+
+This example file is used as datasource to check if a species entry is in Observation.org, but it can also be used as
+data entry input. 
+
+Place this kind of files in /config/datasources/ folder.
 
 ### Datasource Configuration parameters
 
@@ -145,17 +170,19 @@ Place this file in /config/datasources/ folder.
 
 ## Processors
 A Processor is designed to transform input data from one format to another, apply specific operations, or manipulate the data in some way.
-It can be plugged into a data pipeline, executing operations on the data entries received from the input source.
-Each processor is responsible for managing errors, and sending the results top the corresponding output in the pipeline.
+It is the core of a data pipeline, executing operations on the data entries received from the input source.
+Each processor is responsible for managing errors, and sending the results to the corresponding output in the pipeline.
 
 ## Processor types
 
 ### Species Processor
 
-A Species Processor is able to perform operations over a species entry:
+A Species Processor is able to perform operations over a species entry. This is the main type of processor currently used in the software.
 
-- **Preprocess the entry**: Parses the input entry, using the configured Species Parser, and getting a Species object as result
-- **Process the item**: Execute an operation on a remote source (find a match, import the species, etc.). 
+A processor will perform the following tasks:
+
+- **Preprocess the entry**: Parses the input entry, using the configured Species Parser, getting a entry name and a Species object as result
+- **Process the item**: Execute an operation, like checking a remote source (find a match, import the species, etc.). 
 
 There are several processors, depending on the operations to perform with the especies
 
