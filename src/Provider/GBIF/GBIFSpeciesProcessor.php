@@ -29,7 +29,7 @@ class GBIFSpeciesProcessor extends \Somms\BV2Observation\Processor\SpeciesProces
         $result = [];
         $result['gbif_species_id'] = $species->getRemoteId();
         $result['gbif_species_name'] = $species->getRemoteScientificName();
-        $result['gbif_species_name_author'] = $species->getRemoteScientificName() . ' ' . $species->getRemoteAuthor();
+        $result['output_species_name_author'] = trim($species->getRemoteScientificName() . ' ' . $species->getRemoteAuthor());
         return $result;
     }
 }

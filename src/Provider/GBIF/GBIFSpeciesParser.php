@@ -10,7 +10,7 @@ class GBIFSpeciesParser extends SpeciesParser
     protected function parseInput()
     {
         // De base nos quedamos con el nombre canónico
-        $taxonName = $this->input['canonicalName'];
+        $taxonName = $this->input['canonicalName'] ?? end($this->input['higherClassificationMap']);
 
         // Ahora le ponemos el epíteto en función de su grado
 

@@ -20,11 +20,35 @@
         "ext-pdo": "*",
 		"symfony/yaml": "^7.0",
 		"php-di/php-di": "^7.0",
-		"symfony/event-dispatcher": "^7.0"
+		"symfony/event-dispatcher": "^7.0",
+		"gnames/gnparser": "^1.9"
     },
 	"autoload": {
 		"psr-4" : {
 			"Somms\\BV2Observation\\" : "src/"
 		}
-	}
+	},
+	"config": {
+		"bin-dir": "vendor/bin"
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"tar -xzf bin/gnparser-v1.9.0-linux.tar.gz -C bin/",
+			"chmod +x bin/gnparser"
+		]
+	},
+	"repositories": [
+		{
+			"type": "package",
+			"package": {
+				"name": "gnames/gnparser",
+				"version": "1.9.0",
+				"dist": {
+					"url": "https://github.com/gnames/gnparser/releases/download/v1.9.0/gnparser-v1.9.0-linux.tar.gz",
+					"type": "tar"
+				},
+				"bin": ["gnparser"]
+			}
+		}
+	]
 }

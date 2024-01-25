@@ -79,7 +79,7 @@ class GBIFSpeciesImportProcessor extends ObservationSpeciesProcessor
         $doc = hQuery::fromHTML($result->getContents());
         $result = $doc->find('#bd #content .content')->text();
 
-        if( str_contains($result, 'ERROR')){
+        if( str_contains($result, 'ERROR') && !str_contains($result,'Species Already exists')){
             $result = false;
         }
 

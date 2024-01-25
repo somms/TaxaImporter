@@ -9,16 +9,26 @@ use Somms\BV2Observation\Provider\Observation\ObservationWebSpeciesParser;
 class GBIFSpecies extends \Somms\BV2Observation\Data\RemoteSpecies
 {
 
+    protected $synonymValues = [
+        'SYNONYM',
+        'HETEROTYPIC_SYNONYM',
+        'HOMOTYPIC_SYNONYM',
+        'INTERMEDIATE_RANK_SYNONYM',
+        'MISAPPLIED',
+        'PROPARTE_SYNONYM'
+    ];
 
     public function queryRemoteSource($speciesName, $author = null, $options = []): mixed
     {
+        $authorSearch = $options['author_search'] ?? false;
+
         // By default it searches in the GBIF taxonomy backbone
         $datasetKey = $options['datasetKey'] ?? 'd7dddbf4-2cf0-4f39-9b2a-bb099caae36c';
 
 
         $GBIFscientificName = str_replace([' indet.', ' spec.'], '', $this->scientificName);
         $searchString = $GBIFscientificName;
-        if ($author != null){
+        if ($author != null && $authorSearch){
             $searchString .= ' ' . $author;
         }
 
@@ -32,11 +42,11 @@ class GBIFSpecies extends \Somms\BV2Observation\Data\RemoteSpecies
                     $synonymData = false;
                     // Verificamos si la especie está aceptada
                     if ($result['taxonomicStatus'] != 'ACCEPTED' || $result['origin'] != 'SOURCE' ||
-                        $result['canonicalName'] != $GBIFscientificName
+                        (isset($result['canonicalName']) && $result['canonicalName'] != $GBIFscientificName)
 
                     ) {
 
-                        if ($result['taxonomicStatus'] == 'SYNONYM' &&
+                        if (in_array($result['taxonomicStatus'], $this->synonymValues) &&
                             ($result['key'] == ($result['nubKey'] ?? '')) && $result['canonicalName'] == $GBIFscientificName
                         ) {
                             // Esto es un sinónimo y tendríamos que traernos el sinónimo
@@ -46,6 +56,7 @@ class GBIFSpecies extends \Somms\BV2Observation\Data\RemoteSpecies
                             );
                             if ($synonymData->text() != '') {
                                 $result = json_decode($synonymData, true);
+                                $result['synonym'] = true;
                             }
                         } else {
                             continue;

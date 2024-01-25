@@ -38,6 +38,8 @@ class ObservationSpeciesProcessor extends \Somms\BV2Observation\Processor\Specie
         $result = [];
         $result['obs_species_id'] = $species->getRemoteId();
         $result['obs_species_name'] = $species->getRemoteScientificName();
+        $result['output_species_name_author'] = trim($species->getRemoteScientificName() . ' ' . $species->getRemoteAuthor());
+
         return $result;
     }
 }

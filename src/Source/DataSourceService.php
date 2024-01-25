@@ -24,9 +24,14 @@ class DataSourceService
         if(!isset($this->datasourceCache[$datasourceName])) {
 
 
-            $config = $this->configService->loadDatasourceConfig($datasourceName)[$datasourceName];
-            $sourceType = $config['type'];
-
+            if ($datasourceName != 'null') {
+                $config = $this->configService->loadDatasourceConfig($datasourceName)[$datasourceName];
+                $sourceType = $config['type'];
+            }
+            else{
+                $config= [];
+                $sourceType = 'null';
+            }
             switch ($sourceType) {
                 case 'csv':
                     $datasource =  new CSVSource(

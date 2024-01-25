@@ -42,10 +42,12 @@ class POWOSpecies extends RemoteSpecies
             if ($result->current()  == null && $synonymData != null) {
                 if($synonymData != null){
                     // Nos traemos los datos del sinónimo
-                    return $this->queryRemoteSource(
+                    $result = $this->queryRemoteSource(
                         $synonymData[Name::FULL_NAME],
                         $synonymData[Name::AUTHOR] ?? null
                     );
+                    $result['synonym'] = true;
+                    return $result;
                 }
                 elseif($author!= null){
                     // Repetimos la búsqueda pero sin autor, a ver si es que el autor estaba mal

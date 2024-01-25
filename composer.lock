@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b1f6b37e504a6cc01317b899c191993",
+    "content-hash": "4d5bdfc66180c73af6912e2ed15a1fe0",
     "packages": [
         {
             "name": "academe/proj4php",
@@ -115,6 +115,18 @@
                 "xml"
             ],
             "time": "2018-09-25T18:50:04+00:00"
+        },
+        {
+            "name": "gnames/gnparser",
+            "version": "1.9.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://github.com/gnames/gnparser/releases/download/v1.9.0/gnparser-v1.9.0-linux.tar.gz"
+            },
+            "bin": [
+                "gnparser"
+            ],
+            "type": "library"
         },
         {
             "name": "guzzlehttp/guzzle",

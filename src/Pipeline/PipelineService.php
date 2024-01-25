@@ -20,12 +20,15 @@ class PipelineService
         $this->dataOutputService = $dataOutputService;
     }
 
-    public function buildPipeline(string $pipelineName): Pipeline
+    public function buildPipeline(string $pipelineName, bool $isChild = false): Pipeline
     {
         // Lógica para obtener dependencias y construir una instancia de Pipeline
         $pipelineConfig = $this->configService->loadPipelineConfig($pipelineName);
-        if($pipelineConfig['default']['input']['type'] == 'datasource'){
+        if($pipelineConfig['default']['input']['type'] == 'datasource' && !$isChild){
             $inputDatasource = $this->datasourceService->getDataSource($pipelineConfig['default']['input']['name']);
+        }
+        elseif($isChild || $pipelineConfig['default']['input']['type'] === null){
+            $inputDatasource = $this->datasourceService->getDataSource('null');
         }
 
         if(isset($pipelineConfig['default']['remote']['options']['datasource'])){

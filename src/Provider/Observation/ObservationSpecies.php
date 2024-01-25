@@ -22,15 +22,6 @@ class ObservationSpecies extends RemoteSpecies
         if ($result) {
             foreach ($result as $speciesArray) {
                 return $speciesArray;
-//                $this->inRemote = (
-//                    $observationSpecies->getScientificName() == $this->getScientificName() ||
-//                    $observationSpecies->getScientificName() == $this->getScientificName() . ' indet.' ||
-//                    $observationSpecies->getScientificName() == $this->getScientificName() . ' spec.'
-//                );
-//                if ($this->inRemote) {
-//                    return $speciesName;
-//                    break;
-//                }
             }
 
         }
@@ -46,12 +37,6 @@ class ObservationSpecies extends RemoteSpecies
             $author = '';
         }
         $result = $datasource->searchSpecies($speciesName, $author);
-        $species = [];
-/*        $observationParser = new ObservationDBSpeciesParser();
-        foreach ($result as $rawItem){
-            $observationParser->setInput($rawItem);
-            $species[] = $observationParser->getSpecies();
-        }*/
         return $result;
 
     }
@@ -63,13 +48,7 @@ class ObservationSpecies extends RemoteSpecies
         }
         $doc = hQuery::fromUrl($URL, ['Accept' => 'text/html,application/xhtml+xml;q=0.9,*/*;q=0.8']);
         if ($doc->text() != '') {
-            $observationParser = new ObservationWebSpeciesParser();
             $rawResults = explode("\n", $doc->text());
-           /* $results = [];
-            foreach ($rawResults as $rawResult){
-                $observationParser->setInput($rawResult);
-                $results[] = $observationParser->getSpecies();
-            }*/
             return $rawResults;
 
         }

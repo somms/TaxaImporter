@@ -9,9 +9,7 @@ namespace Somms\BV2Observation\Processor;
 
 
 use Somms\BV2Observation\Parser\IParser;
-use Somms\BV2Observation\Parser\ISpeciesParser;
 use Somms\BV2Observation\Parser\Parser;
-use Somms\BV2Observation\Source\DataSourceInterface;
 
 abstract class Processor {
 
@@ -56,7 +54,7 @@ abstract class Processor {
       if($currentIndex < $offset){
           continue;
       }
-      echo "$currentIndex/$total ";
+      echo "\033[33m$currentIndex/$total\033[0m ";
       $this->processRow($inputRow, $options);
     }
 
@@ -67,7 +65,7 @@ abstract class Processor {
       $rawItemName = $this->getItemName($inputRow);
       if(PHP_SAPI == 'cli')
       {
-          echo  str_replace('Somms\BV2Observation\Provider', '# ', get_class($this)). ' > Procesando item: ' . $rawItemName . "\n";
+          echo  "\033[33m" . str_replace('Somms\BV2Observation\Provider', '# ', get_class($this)). " >\033[0m <- " . $rawItemName;
       }
 
       if(!$rawItemName){
@@ -83,7 +81,7 @@ abstract class Processor {
           }
           else{
               $inputRow = array_merge($inputRow, [
-                  'error_search' => $rawItemName
+                  'output_species_name_author' => $rawItemName
               ]);
               $this->errorOutput($inputRow);
           }
@@ -91,9 +89,19 @@ abstract class Processor {
       }else{
           if($result = $this->parsedItems[$rawItemName]){
               $inputRow = array_merge($inputRow, $result);
+              if(PHP_SAPI == 'cli')
+              {
+                  echo " -> \033[32m CACHED \033[0m\n";
+
+              }
               $this->okOutput($inputRow);
           }
           else{
+              if(PHP_SAPI == 'cli')
+              {
+                  echo " -> \033[31m CACHED \033[0m\n";
+
+              }
               $this->errorOutput($inputRow);
           }
       }

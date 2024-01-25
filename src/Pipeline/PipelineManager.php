@@ -24,14 +24,20 @@ class PipelineManager
         $this->processorService = $processorService;
     }
 
-    public function getPipeline($pipelineName): Pipeline{
+    /**
+     * @param $pipelineName string The data pipeline name to be loaded
+     * @param $isChild bool If this data pipeline is a child of another one
+     * @return Pipeline
+     * @throws \Exception
+     */
+    public function getPipeline( string $pipelineName, bool $isChild = false): Pipeline{
         // Si está en la caché lo devolvemos
         if(isset(self::$pipelineCache[$pipelineName]) && self::$pipelineCache[$pipelineName]!= null){
             return self::$pipelineCache[$pipelineName];
         }
 
-        $pipeline = $this->pipelineService->buildPipeline($pipelineName);
-        self::$pipelineCache[$pipelineName] = $pipeline;
+        $pipeline = $this->pipelineService->buildPipeline($pipelineName, $isChild);
+        self::$pipelineCache[$pipelineName . $isChild] = $pipeline;
 
         $processor = $this->processorService->getProcessor($pipeline);
 
@@ -59,7 +65,7 @@ class PipelineManager
         if($dataOutputConfig['type'] != 'pipeline'){
             return null;
         }
-        $pipeline = $this->getPipeline($dataOutputConfig['path']);
+        $pipeline = $this->getPipeline($dataOutputConfig['path'], true);
         return $this->processorService->getProcessor($pipeline);
 
     }

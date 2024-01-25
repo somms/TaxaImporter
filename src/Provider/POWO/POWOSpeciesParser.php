@@ -2,7 +2,6 @@
 
 namespace Somms\BV2Observation\Provider\POWO;
 
-use Somms\BV2Observation\Parser\GNSpeciesParser;
 use Somms\BV2Observation\Parser\SpeciesParser;
 use Somms\PHPKew\POWO\Enums\Name;
 

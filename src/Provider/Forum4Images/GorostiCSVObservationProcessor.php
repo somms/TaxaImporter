@@ -101,7 +101,7 @@ class GorostiCSVObservationProcessor extends ObservationProcessor {
         {
 
           echo "$currentIndex/$total ";
-          echo 'Procesando item: ' . $rawItemName . "\n";
+          echo '<- ' . $rawItemName . "\n";
         }
         /**
          * @var $item Observation

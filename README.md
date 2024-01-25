@@ -16,7 +16,7 @@ OPTIONS:
 COMMANDS:
    This tool accepts a command as first parameter as outlined below:
 
-   clean-species OPTIONS [origin] [target] [species] [output] [output-error]
+   clean-species OPTIONS
 
      Verify species and gets a clean file and a error file
 

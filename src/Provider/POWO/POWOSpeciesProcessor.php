@@ -32,6 +32,8 @@ class POWOSpeciesProcessor extends \Somms\BV2Observation\Processor\SpeciesProces
         $result['powo_species_id'] = $species->getRemoteId();
         $result['powo_species_name'] = $species->getRemoteScientificName();
         $result['powo_species_author'] = $species->getRemoteAuthor();
+        $result['output_species_name_author'] = trim($species->getRemoteScientificName() . ' ' . $species->getRemoteAuthor());
+
         return $result;
     }
 }

@@ -55,7 +55,7 @@ abstract class SpeciesProcessor extends Processor
 
     function discardedOutput($inputRow)
     {
-        echo 'Entrada descartada, porque no cumple criterios de especie.' . "\n";
+        echo "\n". 'Entrada descartada, porque no cumple criterios de especie.' . "\n";
         $inputRow['discarded'] = 1;
         $event = new ProcessorEvent($inputRow, $this);
         $this->eventDispatcher->dispatch($event, ProcessorEvent::TYPE_DISMISSED);
@@ -76,7 +76,7 @@ abstract class SpeciesProcessor extends Processor
      */
     protected function preProcessRow($rawItemName, $inputRow)
     {
-        $this->inputParser->setInput($inputRow);
+        $this->inputParser->setInput($rawItemName);
         return $this->inputParser->getSpecies();
     }
 
@@ -103,14 +103,14 @@ abstract class SpeciesProcessor extends Processor
         if($species != null && $species->populateFromRemote($this->sourceSpeciesParser, $options)){
             if(PHP_SAPI == 'cli')
             {
-                echo 'Especie encontrada: ' . $species->getRemoteScientificName() . "\n";
+                echo " -> \033[32m" . $species->getRemoteScientificName() . "\033[0m\n";
             }
             $result = $this->getRemoteRow($species);
         }
         else{
             if(PHP_SAPI == 'cli')
             {
-                echo 'Especie no encontrada: ' . $species->getScientificName() . "\n";
+                echo " -> \033[31m" . $species->getScientificName() . "\033[0m\n";
             }
         }
 

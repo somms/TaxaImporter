@@ -13,9 +13,10 @@ use Somms\BV2Observation\Data\Species;
 abstract class SpeciesParser implements ISpeciesParser {
 
   protected $input;
-  protected $providerParser;
+  protected $configOptions = array();
 
-  function __construct(){
+  function __construct(array $configOptions = []){
+      $this->configOptions = $configOptions;
   }
 
   public function preprocessInput($input){

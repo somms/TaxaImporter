@@ -25,7 +25,7 @@ abstract class RemoteSpecies extends Species
                 $this->remoteId = $remoteSpecies->getRemoteId();
                 $this->remoteScientificName = $remoteSpecies->getScientificName();
                 $this->remoteAuthor = $remoteSpecies->getAuthor();
-                $this->inRemote = $this->validMatch();
+                $this->inRemote = ($result['synonym'] ?? false) || $this->validMatch();
             }
         }
 
