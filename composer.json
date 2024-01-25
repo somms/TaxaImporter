@@ -1,6 +1,6 @@
 {
-	"name": "somms/bv2observation",
-	"description": "Import information from GV Gorosti to Observation.org",
+	"name": "somms/taxaimporter",
+	"description": "A tool to transform species taxonomies",
 	"minimum-stability": "beta",
 	"license": "proprietary",
 	"authors": [
