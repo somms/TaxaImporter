@@ -31,6 +31,41 @@ COMMANDS:
 
      -s <skip>, --skip <skip>               Number of rows to jump over
 
+## Installation
+
+### Download or clone the repository
+
+Get a local copy of the content of this repository using Git clone or downloading the available releases in https://github.com/somms/TaxaImporter/tags
+
+### PHP 8.2 CLI
+Command line PHP8.2 is required to use this tool.
+
+For PHP command line installation, please, refer to https://www.php.net/manual/install.php. You do not need a web server, just the command line PHP executable.
+
+To check if you already have php installed in your system, just type `php -v`:
+
+    #> php -v
+    PHP 8.2.13 (cli) (built: Nov 24 2023 12:00:00) (NTS)
+    Copyright (c) The PHP Group
+
+### Composer
+
+Composer is used for dependency management.
+
+Please refer to https://getcomposer.org/download/ for installing Composer locally in your system.
+
+Once installed, execute this to install all the dependencies:
+
+    composer install
+
+### Test run
+
+If everything worked, you will be able to see the help page typing this from the root directory:
+
+    php src/Importer.php
+
+# How it works and configuration
+
 ## Pipelines
 
 A "pipeline" refers to a series of data processing steps that are executed in a specific order to transform or analyze input data and produce desired output. Pipelines are often used for tasks such as data processing, ETL (Extract, Transform, Load), and workflow automation.
