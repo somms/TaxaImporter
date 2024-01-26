@@ -1,7 +1,7 @@
-bv_flora_database:
+bv_coleoptera_gbif_database:
   type: 'database'
   dsn: 'pgsql:host=localhost;port=25432;dbname=waarneming'
   username: 'docker'
   password: 'docker'
-  table_name: 'plantas_categories_filter'
-  key_fieldname: 'cat_name'
+  table_name: 'coleoptera_categories_filter'
+  key_fieldname: 'gbif_species_name_author'

@@ -1,5 +1,0 @@
-bv_flora_csv_dump:
-  type: 'csv'
-  delimiter: ';'
-  path: './data/input/plantas_categories_filter_202312041336.csv'
-  key_fieldname: 'cat_name'

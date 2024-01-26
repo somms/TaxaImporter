@@ -1,5 +1,0 @@
-bv_gbif_peces_csv:
-  type: 'csv'
-  delimiter: ';'
-  path: './data/input/peces_gbif.csv'
-  key_fieldname: 'gbif_species_name_author'

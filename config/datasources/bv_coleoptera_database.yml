@@ -1,7 +1,7 @@
-bv_peces_database:
+bv_coleoptera_database:
   type: 'database'
   dsn: 'pgsql:host=localhost;port=25432;dbname=waarneming'
   username: 'docker'
   password: 'docker'
-  table_name: 'peces_categories_filter'
+  table_name: 'coleoptera_categories_filter'
   key_fieldname: 'cat_name'

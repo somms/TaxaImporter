@@ -1,5 +1,0 @@
-bv_insectarium_csv:
-  type: 'csv'
-  delimiter: ';'
-  path: './data/input/bv_insectarium.csv'
-  key_fieldname: 'cat_name'

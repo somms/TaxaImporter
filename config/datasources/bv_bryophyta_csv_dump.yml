@@ -1,5 +1,0 @@
-bv_bryophyta_csv_dump:
-  type: 'csv'
-  delimiter: ';'
-  path: './data/input/bryophyta_categories.csv'
-  key_fieldname: 'cat_name'

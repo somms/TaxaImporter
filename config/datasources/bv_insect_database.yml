@@ -1,7 +1,0 @@
-bv_insect_database:
-  type: 'database'
-  dsn: 'pgsql:host=localhost;port=25432;dbname=waarneming'
-  username: 'docker'
-  password: 'docker'
-  table_name: 'insect_categories_filter'
-  key_fieldname: 'cat_name'

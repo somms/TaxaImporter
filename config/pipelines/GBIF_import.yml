@@ -1,0 +1,16 @@
+default:
+  name: 'Import missing species from GBIF to Observation.org '
+  remote:
+    processor: Observation\GBIFSpeciesImportProcessor
+    options:
+      cookie_jar: 'Place your exported cookies here in JSON format'
+  input:
+    type: datasource
+    name: bv_coleoptera_database
+    parser: Forum4Images\BV\FloraSpeciesParser
+  output_ok:
+    type: csv
+    path: ./data/output/GBIF_ok_import.csv
+  output_errors:
+    type: csv
+    path: ./data/output/GBIF_error_import.csv
