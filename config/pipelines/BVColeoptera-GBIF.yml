@@ -1,0 +1,14 @@
+default:
+  name: 'Check Coleoptera from BV database with GBIF'
+  remote:
+    processor: GBIF\GBIFSpeciesProcessor
+  input:
+    type: datasource
+    name: bv_coleoptera_database # Datasource filename .yml
+    parser: Forum4Images\BV\FloraSpeciesParser
+  output_ok:
+    type: pipeline
+    path: BVColeoptera-GBIF_Obs_DB
+  output_errors:
+    type: pipeline
+    path: BVColeoptera-NoGBIF_Obs_DB

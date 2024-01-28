@@ -37,6 +37,10 @@ class ObservationSpecies extends RemoteSpecies
             $author = '';
         }
         $result = $datasource->searchSpecies($speciesName, $author);
+        while( $result->next() && $result->current()['type_name'] == 'synonym'){
+            $result = $datasource->searchSpecies('%', '%', $result->current()['refer_to']);
+        }
+
         return $result;
 
     }

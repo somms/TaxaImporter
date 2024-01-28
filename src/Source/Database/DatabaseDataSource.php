@@ -54,7 +54,7 @@ class DatabaseDataSource implements DataSourceInterface
 
         $sqlSentence = "SELECT * FROM {$this->tableName} WHERE $whereClause";
         $sqlSentence .= ($author != '' ? " AND {$this->authorField} LIKE $author" : '' );
-        $sqlSentence .= ($id != -1 ? " AND {$this->idField} LIKE '$id'" : '' );
+        $sqlSentence .= ($id != -1 ? " AND {$this->idField} LIKE $id" : '' );
         $statement = $this->pdo->query($sqlSentence);
         return new DatabaseCollection($statement);
     }

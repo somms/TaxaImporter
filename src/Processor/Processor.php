@@ -54,7 +54,7 @@ abstract class Processor {
       if($currentIndex < $offset){
           continue;
       }
-      echo "\033[33m$currentIndex/$total\033[0m ";
+      echo "\033[1;33;43m$currentIndex/$total\033[0m ";
       $this->processRow($inputRow, $options);
     }
 
