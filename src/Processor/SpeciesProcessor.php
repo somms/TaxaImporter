@@ -14,9 +14,6 @@ use Somms\BV2Observation\Event\ProcessorEvent;
 use Somms\BV2Observation\Parser\ISpeciesParser;
 use Somms\BV2Observation\Parser\SpeciesParser;
 use Somms\BV2Observation\Provider\Forum4Images\CSV\Species4ImagesCSVSource;
-use Somms\BV2Observation\Provider\POWO\POWOSpeciesProcessor;
-use Somms\BV2Observation\Provider\POWO\POWOSpeciesParser;
-use Somms\BV2Observation\Source\CSV\CSVSource;
 use Somms\BV2Observation\Source\DataSourceInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

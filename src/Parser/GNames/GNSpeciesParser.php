@@ -1,6 +1,6 @@
 <?php
 
-namespace Somms\BV2Observation\Parser\GNParser;
+namespace Somms\BV2Observation\Parser\GNames;
 
 use Exception;
 use GuzzleHttp\Client;
