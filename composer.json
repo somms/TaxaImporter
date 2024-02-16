@@ -21,7 +21,8 @@
 		"symfony/yaml": "^7.0",
 		"php-di/php-di": "^7.0",
 		"symfony/event-dispatcher": "^7.0",
-		"gnames/gnparser": "^1.9"
+		"gnames/gnparser": "^1.9",
+		"gnames/gnverifier": "^1.1"
     },
 	"autoload": {
 		"psr-4" : {
@@ -48,6 +49,18 @@
 					"type": "tar"
 				},
 				"bin": ["gnparser"]
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "gnames/gnverifier",
+				"version": "1.1.5",
+				"dist": {
+					"url": "https://github.com/gnames/gnverifier/releases/download/v1.1.5/gnverifier-v1.1.5-linux.tar.gz",
+					"type": "tar"
+				},
+				"bin": ["gnverifier"]
 			}
 		}
 	]

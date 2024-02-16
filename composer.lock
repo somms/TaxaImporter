@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d5bdfc66180c73af6912e2ed15a1fe0",
+    "content-hash": "381b0968a5a5c85a072b23ccbc708e32",
     "packages": [
         {
             "name": "academe/proj4php",
@@ -125,6 +125,18 @@
             },
             "bin": [
                 "gnparser"
+            ],
+            "type": "library"
+        },
+        {
+            "name": "gnames/gnverifier",
+            "version": "1.1.5",
+            "dist": {
+                "type": "tar",
+                "url": "https://github.com/gnames/gnverifier/releases/download/v1.1.5/gnverifier-v1.1.5-linux.tar.gz"
+            },
+            "bin": [
+                "gnverifier"
             ],
             "type": "library"
         },

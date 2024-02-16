@@ -1,0 +1,14 @@
+default:
+  name: 'Check Coleoptera from BV database with GBIF using GNVerifier'
+  remote:
+    processor: GNames\GNSpeciesProcessor
+  input:
+    type: datasource
+    name: bv_odonata_database # Datasource filename .yml
+    parser: Forum4Images\BV\FloraSpeciesParser
+  output_ok:
+    type: pipeline
+    path: BVOdonata-GN_GBIF_Obs_DB
+  output_errors:
+    type: pipeline
+    path: BVOdonata-NoGBIF_Obs_DB

@@ -175,6 +175,9 @@ data entry input.
 
 Place this kind of files in /config/datasources/ folder.
 
+There is a special predefined *null datasource* with the file null.yml. You can use it for pipelines that will not read
+data from external sources, but from another pipelines.
+
 ### Datasource Configuration parameters
 
 **`type`:** Datasource type: 'database', 'csv' or 'null' (only valid for chained pipelines)
@@ -226,6 +229,11 @@ There are several processors, depending on the operations to perform with the es
   - **Path**: /GBIF/GBIFSpeciesProcessor
   - **Options**:
     - `datasetKey`: The GBIF species checklist dataset key to restrict the search. If omitted, the default GBIF backbone will be used.
+- **GNVerifier Species Processor**:
+    - Verifies scientific names using GNVerifier (https://github.con/gnames/gnverifier) from GNames, using fuzzy algorithms to match species names and authors. Very helpful to solve typographic errors in source data. It can be used with a variety of data sources.
+    - **Path**: /GNames/GNSpeciesProcessor
+    - **Options**;
+        - `source`: The source id of the checklist to use as reference. By default, it will use GBIF. See the id list here: https://verifier.globalnames.org/data_sources
 - **POWO Species Processor**:
   - Finds a species match in POWO using its API
   - **Path**: /POWO/POWOSpeciesProcessor
@@ -243,4 +251,3 @@ There are several processors, depending on the operations to perform with the es
     ```
     [{"domain":"observation.org","hostOnly":true,"httpOnly":false,"name":"PHPSESSID","path":"/","sameSite":"unspecified","secure":false,"session":true,"storeId":"0","value":"xxxxxxxxxxxx"},{"domain":".observation.org","hostOnly":false,"httpOnly":false,"name":"__utmc","path":"/","sameSite":"unspecified","secure":false,"session":true,"storeId":"0","value":"xxxx"},{"domain":"observation.org","expirationDate":1906977201,"hostOnly":true,"httpOnly":false,"name":"cookielaw_accepted","path":"/","sameSite":"unspecified","secure":false,"session":false,"storeId":"0","value":"1"},{"domain":".observation.org","expirationDate":1699607885.149821,"hostOnly":false,"httpOnly":false,"name":"_ga_2EFJWZ44T4","path":"/","sameSite":"unspecified","secure":false,"session":false,"storeId":"0","value":"GSxxxxxxxx"},{"domain":".observation.org","expirationDate":1706879325,"hostOnly":false,"httpOnly":false,"name":"leaflet_basemap_details","path":"/","sameSite":"unspecified","secure":false,"session":false,"storeId":"0","value":"Google sat"},{"domain":"observation.org","expirationDate":1729697290.154656,"hostOnly":true,"httpOnly":false,"name":"csrftoken","path":"/","sameSite":"no_restriction","secure":true,"session":false,"storeId":"0","value":"xxxxxxxxxxxx"},{"domain":"observation.org","expirationDate":1729780709.443483,"hostOnly":true,"httpOnly":true,"name":"sessionid","path":"/","sameSite":"lax","secure":false,"session":false,"storeId":"0","value":"xxxxxxxxxxxxx"},{"domain":".observation.org","expirationDate":1729501724,"hostOnly":false,"httpOnly":false,"name":"leaflet_basemap","path":"/","sameSite":"unspecified","secure":false,"session":false,"storeId":"0","value":"OSM human"},{"domain":".observation.org","expirationDate":1700810559.493133,"hostOnly":false,"httpOnly":true,"name":"lang","path":"/","sameSite":"lax","secure":true,"session":false,"storeId":"0","value":"es"},{"domain":".observation.org","expirationDate":1700747542.998559,"hostOnly":false,"httpOnly":true,"name":"token","path":"/","sameSite":"lax","secure":true,"session":false,"storeId":"0","value":"xxxx%x"},{"domain":".observation.org","expirationDate":1698334091,"hostOnly":false,"httpOnly":false,"name":"_gid","path":"/","sameSite":"unspecified","secure":false,"session":false,"storeId":"0","value":"xxxxxxxxx"},{"domain":"observation.org","expirationDate":1729607658.204463,"hostOnly":true,"httpOnly":false,"name":"django_language","path":"/","sameSite":"unspecified","secure":false,"session":false,"storeId":"0","value":"es"},{"domain":".observation.org","expirationDate":1732717007.451761,"hostOnly":false,"httpOnly":false,"name":"_ga_E82Y78YY1E","path":"/","sameSite":"unspecified","secure":false,"session":false,"storeId":"0","value":"xxxxxxxxxx"},{"domain":".observation.org","expirationDate":1732717007.456646,"hostOnly":false,"httpOnly":false,"name":"_ga_M6M73VLLPN","path":"/","sameSite":"unspecified","secure":false,"session":false,"storeId":"0","value":"xxxxxxxxx"},{"domain":".observation.org","expirationDate":1732807691.429791,"hostOnly":false,"httpOnly":false,"name":"_ga","path":"/","sameSite":"unspecified","secure":false,"session":false,"storeId":"0","value":"xxxxxxxxxx"},{"domain":".observation.org","expirationDate":1698247751,"hostOnly":false,"httpOnly":false,"name":"_gat","path":"/","sameSite":"unspecified","secure":false,"session":false,"storeId":"0","value":"1"}]
     ```
-

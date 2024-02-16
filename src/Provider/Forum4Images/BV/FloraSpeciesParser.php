@@ -2,8 +2,8 @@
 
 namespace Somms\BV2Observation\Provider\Forum4Images\BV;
 
-use Somms\BV2Observation\Parser\GNParser\GNSpeciesParser;
-use Somms\BV2Observation\Parser\GNParser\LocaBinGNSpeciesParser;
+use Somms\BV2Observation\Parser\GNames\GNParser\GNSpeciesParser;
+use Somms\BV2Observation\Parser\GNames\GNParser\LocaBinGNSpeciesParser;
 
 class FloraSpeciesParser extends LocaBinGNSpeciesParser
 {
@@ -16,8 +16,8 @@ class FloraSpeciesParser extends LocaBinGNSpeciesParser
             return false;
         }
         // Eliminamos las letras en mayúsculas del principio
-        $input = preg_replace('/^[A-Z]+ /', '', $input);
-        $input = preg_replace('/^[A-Z]+ /', '', $input);
+        $input = preg_replace('/^[A-Z]+\:? /', '', $input);
+        $input = preg_replace('/^[A-Z]+\:? /', '', $input);
 
         // Borramos palabras que no son forman parte del nombre
         $input = str_replace([
