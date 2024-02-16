@@ -15,4 +15,3 @@ default: # Pipeline definition file, including input, outputs and the processor 
   output_errors: # Output for the errors
     type: pipeline # Output type. It can be "csv" or "pipeline"
     path: GBIF_import # The path to the output file for CSV, or the name of the pipeline config file
-

@@ -1,0 +1,7 @@
+bv_lepidoptera_database:
+  type: 'database'
+  dsn: 'pgsql:host=localhost;port=25432;dbname=waarneming'
+  username: 'docker'
+  password: 'docker'
+  table_name: 'lepidoptera_categories_filter'
+  key_fieldname: 'cat_name'

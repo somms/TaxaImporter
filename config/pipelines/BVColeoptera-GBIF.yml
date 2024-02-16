@@ -12,4 +12,3 @@ default:
   output_errors:
     type: pipeline
     path: BVColeoptera-NoGBIF_Obs_DB
-
