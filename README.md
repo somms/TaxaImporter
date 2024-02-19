@@ -1,12 +1,38 @@
 # TaxaImporter
 
-   A tool for converting taxonomies from one source to another, and verifying it against taxonomical checklists. Currently, its supports Observation.org, Plants Of the World Online (POWO) and GBIF.org.  
+   A tool for converting taxonomies from one source to another, and verifying it against taxonomical checklists. Currently, it supports Observation.org, Plants Of the World Online (POWO), GBIF.org and more than 100 other checklists available with GNVerifier.  
 
 When faced with the challenge of importing biodiversity data from one external source to another, the first obstacle to overcome is always being able to locate and resolve differences in taxonomic criteria. This task can be really complex when you have a high number of entries, or the database does not have an optimal structure.
 
 TaxaImporter is a tool that allows you to automate a large part of the process, giving you enough flexibility to adapt to a large number of situations. 
 
-USAGE:
+## Index
+
+<!-- TOC -->
+* [TaxaImporter](#taxaimporter)
+  * [Index](#index)
+  * [Usage](#usage)
+* [Installation](#installation)
+  * [Download or clone the repository](#download-or-clone-the-repository)
+  * [PHP 8.2 CLI](#php-82-cli)
+  * [Composer](#composer)
+  * [Test run](#test-run)
+* [How it works and configuration](#how-it-works-and-configuration)
+  * [Pipelines](#pipelines)
+  * [Pipeline Definition File .yml](#pipeline-definition-file-yml)
+    * [Configuration parameters](#configuration-parameters)
+  * [DataSource](#datasource)
+  * [Datasource Definition File .yml](#datasource-definition-file-yml)
+    * [Datasource Configuration parameters](#datasource-configuration-parameters)
+      * [Database type parameters](#database-type-parameters)
+      * [CSV type parameters](#csv-type-parameters)
+  * [Processors](#processors)
+  * [Processor types](#processor-types)
+    * [Species Processor](#species-processor)
+<!-- TOC -->
+
+## Usage
+
    Importer.php <OPTIONS> <COMMAND> ... <skip>
 
 OPTIONS:
@@ -31,13 +57,13 @@ COMMANDS:
 
      -s <skip>, --skip <skip>               Number of rows to jump over
 
-## Installation
+# Installation
 
-### Download or clone the repository
+## Download or clone the repository
 
 Get a local copy of the content of this repository using Git clone or downloading the available releases in https://github.com/somms/TaxaImporter/tags
 
-### PHP 8.2 CLI
+## PHP 8.2 CLI
 Command line PHP8.2 is required to use this tool.
 
 For PHP command line installation, please, refer to https://www.php.net/manual/install.php. You do not need a web server, just the command line PHP executable.
@@ -48,7 +74,7 @@ To check if you already have php installed in your system, just type `php -v`:
     PHP 8.2.13 (cli) (built: Nov 24 2023 12:00:00) (NTS)
     Copyright (c) The PHP Group
 
-### Composer
+## Composer
 
 Composer is used for dependency management.
 
@@ -58,7 +84,7 @@ Once installed, execute this to install all the dependencies:
 
     composer install
 
-### Test run
+## Test run
 
 If everything worked, you will be able to see the help page typing this from the root directory:
 
