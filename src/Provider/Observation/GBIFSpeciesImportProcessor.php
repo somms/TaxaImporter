@@ -48,10 +48,13 @@ class GBIFSpeciesImportProcessor extends ObservationSpeciesProcessor
       // Preparamos las cookies
       $cookies= [];
       $tmpCookies = json_decode($this->cookie_json_jar);
-      foreach ($tmpCookies as $tmpCookie)
-      {
-          $cookies[$tmpCookie->name] = $tmpCookie->value;
+      if($tmpCookies != null){
+          foreach ($tmpCookies as $tmpCookie)
+          {
+              $cookies[$tmpCookie->name] = $tmpCookie->value;
+          }
       }
+
 
     $cookieJar = \GuzzleHttp\Cookie\CookieJar::fromArray(
         $cookies,
