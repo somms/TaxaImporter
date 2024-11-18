@@ -61,7 +61,7 @@ class GBIFSpeciesImportProcessor extends ObservationSpeciesProcessor
         'observation.org'
     );
         // URL del formulario
-        $url = 'https://old.observation.org/add_species.php';
+        $url = 'https://admin.observation.org/add_species.php';
         // Datos a enviar mediante POST
         $postData = [
             'species_name' =>

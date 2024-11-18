@@ -25,7 +25,8 @@ class GNSpecies extends RemoteSpecies
         if(!isset($resultados) || !isset($resultados['results'])){
             return false;
         }
-        if($resultados['results'][0]['isSynonym']){
+        // JRG: Añadida verificación para evitar bucles de sinónimos
+        if($resultados['results'][0]['isSynonym'] && $speciesName!=$resultados['results'][0]['currentName']){
             $currentName = $resultados['results'][0]['currentName'];
             return $this->queryRemoteSource($currentName, '', $options);
         }
