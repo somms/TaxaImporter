@@ -1,3 +1,4 @@
 /data/output/*
+.phpunit.cache
 /vendor
 /config/pipelines/BV_PiscisAlgae_GBIF_import.yml

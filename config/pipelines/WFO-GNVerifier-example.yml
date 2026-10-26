@@ -1,0 +1,14 @@
+default:
+  name: 'Validate taxon names against WFO via GNVerifier (data source 196)'
+  remote:
+    processor: GNames\GNWFOSpeciesProcessor
+  input:
+    type: csv
+    name: wfo_input_csv
+    parser: Forum4Images\SpeciesStringParser
+  output_ok:
+    type: csv
+    path: ./data/output/WFO_gnverifier_ok.csv
+  output_errors:
+    type: csv
+    path: ./data/output/WFO_gnverifier_errors.csv

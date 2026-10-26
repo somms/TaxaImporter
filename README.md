@@ -260,9 +260,25 @@ There are several processors, depending on the operations to perform with the es
     - **Path**: /GNames/GNSpeciesProcessor
     - **Options**;
         - `source`: The source id of the checklist to use as reference. By default, it will use GBIF. See the id list here: https://verifier.globalnames.org/data_sources
+- **GNVerifier WFO Species Processor**:
+  - Same as GNVerifier with World Flora Online as the reference checklist (GNames data source `196`).
+  - **Path**: /GNames/GNWFOSpeciesProcessor
+  - See `docs/wfo.md` for pipelines and tests.
+- **WFO Match API Species Processor**:
+  - Validates names against the WFO REST matching service (`matching_rest.php`).
+  - **Path**: /WFO/WFOSpeciesProcessor
+  - **Options**: `fuzzy_names`, `fuzzy_authors`, `accept_single_candidate`, `check_homonyms`, `check_rank`, `rate_limit_seconds`
+  - See `docs/wfo.md`.
 - **POWO Species Processor**:
   - Finds a species match in POWO using its API
   - **Path**: /POWO/POWOSpeciesProcessor
+- **MycoBank Species Processor**:
+  - Finds fungal names in a local PostgreSQL copy of the MycoBank export and resolves synonyms to their current name.
+  - **Path**: /MycoBank/MycoBankSpeciesProcessor
+  - **Options**:
+    - `datasource`: Database datasource containing the table loaded with `src/MycoBankImport.php` from a preconverted `MBList.csv`.
+  - See `docs/mycobank.md` for CSV preparation, import, and pipelines
+    `ObsSetas-MycoBank`, `ObsMusgos-MycoBank` and `MycoBank-ObsDB`.
 - **Observation Species Processor**:
   - Finds a species match in Observation using a local database or their website. Authorship verification is only available with the database option
   - **Path**: /Observation/ObservationSpeciesProcessor

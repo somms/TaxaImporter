@@ -6,31 +6,28 @@ use Somms\BV2Observation\Data\RemoteSpecies;
 
 class GNSpecies extends RemoteSpecies
 {
-    const LOCAL_PATH = 'vendor/bin/gnverifier';
+    private static ?GnVerifierCli $verifier = null;
+
+    public static function setVerifier(?GnVerifierCli $verifier): void
+    {
+        self::$verifier = $verifier;
+    }
 
     protected function queryRemoteSource(string $speciesName, string $author, $options = []): mixed
     {
-
         $input = trim($speciesName . ' ' . $author);
-        $escapedInput = escapeshellarg($input);
-        $source = $options['source'] ?? '11';
-        $source = escapeshellarg($source);
-        $command = self::LOCAL_PATH . " -q -M -s $source -f compact $escapedInput";
-        $output = array();
-        $retval = null;
-        $response = exec($command, $output, $retval);
-        // Decodificar la respuesta JSON
-        $resultados = json_decode($response, true);
-        $resultados = $resultados[0] ?? $resultados;
-        if(!isset($resultados) || !isset($resultados['results'])){
+        $source = (string) ($options['source'] ?? GnVerifierCli::DATASOURCE_GBIF);
+        $verifier = self::$verifier ?? new GnVerifierCli();
+
+        $result = $verifier->verifyCompact($input, $source);
+        if ($result === null) {
             return false;
         }
-        // JRG: Añadida verificación para evitar bucles de sinónimos
-        if($resultados['results'][0]['isSynonym'] && $speciesName!=$resultados['results'][0]['currentName']){
-            $currentName = $resultados['results'][0]['currentName'];
-            return $this->queryRemoteSource($currentName, '', $options);
-        }
-        return $resultados['results'][0];
 
+        if (($result['isSynonym'] ?? false) && $speciesName !== ($result['currentName'] ?? '')) {
+            return $this->queryRemoteSource((string) $result['currentName'], '', $options);
+        }
+
+        return $result;
     }
 }

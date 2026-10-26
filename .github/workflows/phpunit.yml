@@ -1,0 +1,54 @@
+name: PHPUnit
+
+on:
+  push:
+    branches: [main, 'feature/**']
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      live_wfo:
+        description: Run live WFO tests and GN vs REST CSV report
+        type: boolean
+        default: false
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+      - name: Unit tests
+        run: composer test
+
+  live-wfo:
+    runs-on: ubuntu-latest
+    if: >-
+      (github.event_name == 'workflow_dispatch' && inputs.live_wfo == true) ||
+      vars.TAXAIMPORTER_RUN_LIVE_WFO == '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+      - name: Live WFO tests
+        env:
+          TAXAIMPORTER_LIVE_WFO: '1'
+          TAXAIMPORTER_WFO_MAX_TAXA: '100'
+        run: composer test:live
+      - name: GN vs REST discrepancy report
+        env:
+          TAXAIMPORTER_LIVE_WFO: '1'
+          TAXAIMPORTER_WFO_RATE_LIMIT: '0.02'
+        run: php bin/wfo-gn-rest-discrepancy-report.php tests/fixtures/wfo_andalusia_taxa.txt data/output/wfo_gn_rest_discrepancies.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wfo-gn-rest-discrepancies
+          path: data/output/wfo_gn_rest_discrepancies.csv

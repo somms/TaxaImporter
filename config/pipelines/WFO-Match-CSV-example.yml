@@ -1,0 +1,20 @@
+default:
+  name: 'Validate taxon names against World Flora Online (REST match API)'
+  remote:
+    processor: WFO\WFOSpeciesProcessor
+    options:
+      fuzzy_names: 2
+      fuzzy_authors: 1
+      accept_single_candidate: true
+      check_homonyms: false
+      rate_limit_seconds: 0.1
+  input:
+    type: csv
+    name: wfo_input_csv
+    parser: Forum4Images\SpeciesStringParser
+  output_ok:
+    type: csv
+    path: ./data/output/WFO_match_ok.csv
+  output_errors:
+    type: csv
+    path: ./data/output/WFO_match_errors.csv
