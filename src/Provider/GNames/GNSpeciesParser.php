@@ -3,30 +3,41 @@
 namespace Somms\BV2Observation\Provider\GNames;
 
 use Somms\BV2Observation\Parser\SpeciesParser;
-use Somms\BV2Observation\Provider\GBIF\GBIFSpecies;
 
 class GNSpeciesParser extends SpeciesParser
 {
-
     protected function parseInput()
     {
         // De base nos quedamos con el nombre canónico
-        $taxonName = $this->input['matchedCanonicalFull'];
-        $authorName = trim(substr($this->input['matchedName'], strlen($taxonName)));
+        $taxonName = (string) ($this->input['matchedCanonicalFull'] ?? '');
+        $matchedName = (string) ($this->input['matchedName'] ?? $taxonName);
+        $authorName = trim(substr($matchedName, strlen($taxonName)));
 
-        // Ahora le ponemos el epíteto en función de su grado
-        $rangos = explode('|', $this->input['classificationRanks']);
+        $ranksRaw = trim((string) ($this->input['classificationRanks'] ?? ''));
+        $rangos = $ranksRaw !== '' ? explode('|', $ranksRaw) : [];
 
-        if(array_search('species', $rangos) === false){
-            if(array_search('genus', $rangos)){
-                $taxonName .= " indet.";
-            }
-            else{
-                $taxonName .= " spec.";
+        $isSpeciesLevel = in_array('species', $rangos, true)
+            || in_array('subspecies', $rangos, true)
+            || in_array('variety', $rangos, true)
+            || in_array('form', $rangos, true);
+
+        // Fallback when WFO/GNames omit ranks (e.g. bare-name stub still selected).
+        $cardinality = (int) ($this->input['matchedCardinality'] ?? 0);
+        if (!$isSpeciesLevel && $rangos === []) {
+            $isSpeciesLevel = $cardinality >= 2;
+        }
+
+        if (!$isSpeciesLevel) {
+            if (in_array('genus', $rangos, true) || $cardinality === 1) {
+                $taxonName .= ' indet.';
+            } else {
+                $taxonName .= ' spec.';
             }
         }
+
         $species = new GNSpecies($taxonName, '', $authorName);
-        $species->setRemoteId($this->input['matchedNameID']);
+        $species->setRemoteId((string) ($this->input['matchedNameID'] ?? ''));
+
         return $species;
     }
 }

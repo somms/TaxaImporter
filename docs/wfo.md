@@ -57,6 +57,17 @@ If neither is set, common system CA paths are tried before falling back to Guzzl
 
 Local gnverifier access is centralized in `GnVerifierCli`; `LocalBinGNSpeciesVerifier` delegates to it.
 
+### Bare-name / missing `classificationRanks` (GNVerifier)
+
+Some WFO matches return several candidates. The first row can be a **bare-name** stub (`recordId` starting with `bare-name-`) that has a binomial `matchedCanonicalFull` but **no** `classificationRanks`. Older logic always took `results[0]`, so `GNSpeciesParser` treated the name as non-species and appended ` spec.` (e.g. *Eryngium tenue* → *Eryngium tenue spec.*).
+
+TaxaImporter now:
+
+1. **`GnVerifierCli::selectBestResult()`** — prefers a non-bare-name row that includes `classificationRanks`.
+2. **`GNSpeciesParser`** — if ranks are still missing, uses `matchedCardinality` (≥ 2 → species level; 1 → ` indet.`).
+
+Unit coverage: `tests/GNames/GnVerifierResultSelectionTest.php` with fixture `tests/fixtures/gnverifier_eryngium_tenue_wfo.json`.
+
 Example pipeline files:
 
 - `config/pipelines/WFO-GNVerifier-example.yml`

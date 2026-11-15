@@ -1,0 +1,55 @@
+{
+  "id": "4fb018b4-1e71-5b60-9008-1e8f49e32951",
+  "name": "Eryngium tenue Lam.",
+  "cardinality": 2,
+  "matchType": "Exact",
+  "results": [
+    {
+      "dataSourceId": 196,
+      "dataSourceTitleShort": "World Flora Online",
+      "curation": "Curated",
+      "recordId": "bare-name-wfo-0000678270",
+      "outlink": "https://list.worldfloraonline.org/wfo-0000678270",
+      "matchedNameID": "4fb018b4-1e71-5b60-9008-1e8f49e32951",
+      "matchedName": "Eryngium tenue Lam.",
+      "matchedCardinality": 2,
+      "matchedCanonicalSimple": "Eryngium tenue",
+      "matchedCanonicalFull": "Eryngium tenue",
+      "currentName": "Eryngium tenue Lam.",
+      "isSynonym": false,
+      "matchType": "Exact"
+    },
+    {
+      "dataSourceId": 196,
+      "dataSourceTitleShort": "World Flora Online",
+      "curation": "Curated",
+      "recordId": "wfo-1200009730-2025-12",
+      "outlink": "https://list.worldfloraonline.org/wfo-1200009730",
+      "matchedNameID": "5d22cf32-5ff7-5f75-90d5-f52be202718c",
+      "matchedName": "Eryngium tenue Desf.",
+      "matchedCardinality": 2,
+      "matchedCanonicalSimple": "Eryngium tenue",
+      "matchedCanonicalFull": "Eryngium tenue",
+      "currentName": "Eryngium tenue Desf.",
+      "isSynonym": false,
+      "classificationPath": "Plantae|Pteridobiotina|Angiosperms|Apiales|Apiaceae|Eryngium|Eryngium tenue",
+      "classificationRanks": "kingdom|subkingdom|phylum|order|family|genus|species",
+      "matchType": "Exact"
+    },
+    {
+      "dataSourceId": 196,
+      "dataSourceTitleShort": "World Flora Online",
+      "curation": "Curated",
+      "recordId": "wfo-0000678271-2025-12",
+      "matchedNameID": "02114645-4725-5a83-81d0-80734b2d7796",
+      "matchedName": "Eryngium tenue Hook. & Arn.",
+      "matchedCardinality": 2,
+      "matchedCanonicalSimple": "Eryngium tenue",
+      "matchedCanonicalFull": "Eryngium tenue",
+      "currentName": "Eryngium beecheyanum Hook. & Arn.",
+      "isSynonym": true,
+      "classificationRanks": "kingdom|subkingdom|phylum|order|family|genus|species",
+      "matchType": "Exact"
+    }
+  ]
+}
