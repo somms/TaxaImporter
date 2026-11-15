@@ -35,7 +35,48 @@ if ($fp === false) {
 }
 
 $rateLimit = (float) (getenv('TAXAIMPORTER_WFO_RATE_LIMIT') ?: '0.05');
+$t0 = microtime(true);
 WfoDualMatchReport::writeCsv($taxa, $fp, [], $rateLimit);
 fclose($fp);
+$elapsed = microtime(true) - $t0;
 
-echo "Wrote " . count($taxa) . " rows to {$outPath}\n";
+$counts = [
+    'agree_id' => 0,
+    'agree_name' => 0,
+    'disagree' => 0,
+    'gn_only' => 0,
+    'rest_only' => 0,
+    'neither' => 0,
+    'gn_spec_or_indet' => 0,
+];
+$fh = fopen($outPath, 'r');
+if ($fh !== false) {
+    $header = fgetcsv($fh);
+    $statusIdx = $header !== false ? array_search('status', $header, true) : false;
+    $gnNameIdx = $header !== false ? array_search('gn_matched_name', $header, true) : false;
+    while (($row = fgetcsv($fh)) !== false) {
+        if ($statusIdx !== false && isset($row[$statusIdx], $counts[$row[$statusIdx]])) {
+            $counts[$row[$statusIdx]]++;
+        }
+        if ($gnNameIdx !== false && isset($row[$gnNameIdx])) {
+            $n = $row[$gnNameIdx];
+            if (str_contains($n, ' spec.') || str_contains($n, ' indet.')) {
+                $counts['gn_spec_or_indet']++;
+            }
+        }
+    }
+    fclose($fh);
+}
+
+printf("Wrote %d rows to %s\n", count($taxa), $outPath);
+printf("Elapsed: %.1fs (%.1f ms/taxon, rate_limit=%.3fs)\n", $elapsed, 1000 * $elapsed / max(1, count($taxa)), $rateLimit);
+printf(
+    "Status: agree_id=%d agree_name=%d disagree=%d gn_only=%d rest_only=%d neither=%d | gn suffix spec/indet=%d\n",
+    $counts['agree_id'],
+    $counts['agree_name'],
+    $counts['disagree'],
+    $counts['gn_only'],
+    $counts['rest_only'],
+    $counts['neither'],
+    $counts['gn_spec_or_indet'],
+);

@@ -104,11 +104,15 @@ php bin/wfo-gn-rest-discrepancy-report.php tests/fixtures/wfo_andalusia_taxa.txt
 
 Columns include `status`: `agree_id`, `agree_name`, `disagree`, `gn_only`, `rest_only`, `neither`.
 
-Benchmark both backends:
+Benchmark both backends (match rate **and** wall-clock time; backends timed separately):
 
 ```bash
-php bin/wfo-validate-taxa.php tests/fixtures/wfo_andalusia_taxa.txt --backend=both
+# Pure speed (no artificial REST throttle). Optional: --rate-limit=0.05 for polite REST.
+php bin/wfo-validate-taxa.php tests/fixtures/wfo_andalusia_taxa.txt --backend=both \
+  --summary=data/output/wfo_benchmark_summary.json
 ```
+
+Output per backend: matches, %, total seconds, ms/taxon, and how many resolved names carry a `spec.` / `indet.` suffix (useful after the bare-name / `classificationRanks` fix).
 
 Live tests expect at least **85%** match rate on the fixture (tunable in `WfoLiveValidationTest`).
 
