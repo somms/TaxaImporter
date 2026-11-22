@@ -66,10 +66,14 @@ final class WfoMatchClient
                 && $verify !== false
                 && WfoHttpConfig::isTlsError($e)
             ) {
-                return $this->requestWithClient(
-                    new Client(WfoHttpConfig::guzzleClientOptionsForVerify(false)),
-                    $query,
-                );
+                try {
+                    return $this->requestWithClient(
+                        new Client(WfoHttpConfig::guzzleClientOptionsForVerify(false)),
+                        $query,
+                    );
+                } catch (\Throwable) {
+                    return null;
+                }
             }
 
             return null;
@@ -83,11 +87,20 @@ final class WfoMatchClient
      */
     private function requestWithClient(ClientInterface $client, array $query): ?array
     {
-        $response = $client->request('GET', $this->baseUrl, ['query' => $query]);
-        $body = (string) $response->getBody();
-        $decoded = json_decode($body, true);
+        try {
+            $response = $client->request('GET', $this->baseUrl, ['query' => $query]);
+            $body = (string) $response->getBody();
+            $decoded = json_decode($body, true);
 
-        return is_array($decoded) ? $decoded : null;
+            return is_array($decoded) ? $decoded : null;
+        } catch (\Throwable $e) {
+            // Re-throw TLS errors so match() can attempt SSL fallback; swallow timeouts/etc.
+            if (WfoHttpConfig::isTlsError($e)) {
+                throw $e;
+            }
+
+            return null;
+        }
     }
 
     /**
