@@ -12,14 +12,26 @@ class DatabaseDataSource implements DataSourceInterface
     private string $speciesNameField;
     private string $authorField;
     private string $idField;
+    /** @var list<int> */
+    private array $speciesGroupIds;
 
-    public function __construct(PDO $pdo, $tableName, $speciesNameField, $authorField = '', $idField = '')
-    {
+    /**
+     * @param list<int>|int|null $speciesGroupIds Optional Observation.org speciesgroup_id filter
+     */
+    public function __construct(
+        PDO $pdo,
+        $tableName,
+        $speciesNameField,
+        $authorField = '',
+        $idField = '',
+        $speciesGroupIds = null
+    ) {
         $this->pdo = $pdo;
         $this->tableName = $tableName;
         $this->speciesNameField = $speciesNameField;
         $this->authorField = $authorField;
         $this->idField = $idField;
+        $this->speciesGroupIds = $this->normalizeSpeciesGroupIds($speciesGroupIds);
     }
 
     /**
@@ -27,8 +39,16 @@ class DatabaseDataSource implements DataSourceInterface
      */
     public function getInputCollection()
     {
-        // Realiza una consulta para obtener datos desde la base de datos
-        $statement = $this->pdo->query("SELECT * FROM {$this->tableName}");
+        $sql = "SELECT * FROM {$this->tableName}";
+        $groupFilter = $this->speciesGroupFilterSql();
+        if ($groupFilter !== '') {
+            $sql .= ' WHERE ' . $groupFilter;
+            $statement = $this->pdo->prepare($sql);
+            $statement->execute();
+            return new DatabaseCollection($statement);
+        }
+
+        $statement = $this->pdo->query($sql);
         return new DatabaseCollection($statement);
     }
 
@@ -55,6 +75,10 @@ class DatabaseDataSource implements DataSourceInterface
         $sqlSentence = "SELECT * FROM {$this->tableName} WHERE $whereClause";
         $sqlSentence .= ($author != '' ? " AND {$this->authorField} LIKE $author" : '' );
         $sqlSentence .= ($id != -1 ? " AND {$this->idField} LIKE $id" : '' );
+        $groupFilter = $this->speciesGroupFilterSql();
+        if ($groupFilter !== '') {
+            $sqlSentence .= ' AND ' . $groupFilter;
+        }
         $statement = $this->pdo->query($sqlSentence);
         return new DatabaseCollection($statement);
     }
@@ -68,5 +92,73 @@ class DatabaseDataSource implements DataSourceInterface
         }
 
         return $result;
+    }
+
+    public function getPdo(): PDO
+    {
+        return $this->pdo;
+    }
+
+    public function getTableName(): string
+    {
+        return $this->tableName;
+    }
+
+    public function getSpeciesNameField(): string
+    {
+        return $this->speciesNameField;
+    }
+
+    public function getAuthorField(): string
+    {
+        return $this->authorField;
+    }
+
+    public function getIdField(): string
+    {
+        return $this->idField;
+    }
+
+    /**
+     * @return list<int>
+     */
+    public function getSpeciesGroupIds(): array
+    {
+        return $this->speciesGroupIds;
+    }
+
+    private function speciesGroupFilterSql(): string
+    {
+        if ($this->speciesGroupIds === []) {
+            return '';
+        }
+
+        return 'speciesgroup_id IN (' . implode(', ', $this->speciesGroupIds) . ')';
+    }
+
+    /**
+     * @param list<int>|int|null $speciesGroupIds
+     * @return list<int>
+     */
+    private function normalizeSpeciesGroupIds($speciesGroupIds): array
+    {
+        if ($speciesGroupIds === null || $speciesGroupIds === '') {
+            return [];
+        }
+        if (!is_array($speciesGroupIds)) {
+            $speciesGroupIds = [$speciesGroupIds];
+        }
+
+        $normalized = [];
+        foreach ($speciesGroupIds as $value) {
+            if (!is_numeric($value)) {
+                throw new \InvalidArgumentException(
+                    'speciesgroup_id debe ser numérico en la configuración del datasource.'
+                );
+            }
+            $normalized[] = (int) $value;
+        }
+
+        return array_values(array_unique($normalized));
     }
 }

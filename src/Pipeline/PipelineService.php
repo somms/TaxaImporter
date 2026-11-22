@@ -31,8 +31,29 @@ class PipelineService
             $inputDatasource = $this->datasourceService->getDataSource('null');
         }
 
-        if(isset($pipelineConfig['default']['remote']['options']['datasource'])){
-            $pipelineConfig['default']['remote']['options']['datasource'] = $this->datasourceService->getDataSource($pipelineConfig['default']['remote']['options']['datasource']);
+        if (isset($pipelineConfig['default']['remote']['options']['datasource'])) {
+            $datasourceOption = $pipelineConfig['default']['remote']['options']['datasource'];
+
+            // Mantener compatibilidad: si es un string, se resuelve a un único DataSourceInterface
+            if (!is_array($datasourceOption)) {
+                $pipelineConfig['default']['remote']['options']['datasource'] =
+                    $this->datasourceService->getDataSource($datasourceOption);
+            } else {
+                // Nuevo comportamiento: permitir múltiples datasources nombrados
+                //   datasource:
+                //     main: some_datasource_name
+                //     synonyms: other_datasource_name
+                $resolved = [];
+                foreach ($datasourceOption as $name => $dsName) {
+                    // Permitimos dejar ya inyectados objetos DataSourceInterface en configuración avanzada
+                    if ($dsName instanceof \Somms\BV2Observation\Source\DataSourceInterface) {
+                        $resolved[$name] = $dsName;
+                    } else {
+                        $resolved[$name] = $this->datasourceService->getDataSource($dsName);
+                    }
+                }
+                $pipelineConfig['default']['remote']['options']['datasource'] = $resolved;
+            }
         }
 
         $okOutput = $pipelineConfig['default']['output_ok'];

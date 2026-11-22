@@ -15,6 +15,15 @@ use Somms\BV2Observation\Parser\SpeciesParser;
 class ObservationDBSpeciesParser extends SpeciesParser {
 
   /**
+   * Override to store the full row array instead of just the species name string
+   * @param $input
+   */
+  public function setInput($input){
+    // Store the full input row array directly, bypassing preprocessInput
+    $this->input = $input;
+  }
+
+  /**
    * @return RemoteSpecies
    */
   protected function parseInput() {

@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 // Verificar que se haya pasado el speciesgroup_id como argumento
 if ($argc != 2) {

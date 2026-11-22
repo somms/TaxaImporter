@@ -42,12 +42,16 @@ class DataSourceService
                     );
                     break;
                 case 'database':
+                    $speciesGroupIds = $config['speciesgroup_ids']
+                        ?? $config['speciesgroup_id']
+                        ?? null;
                     $datasource = new DatabaseDataSource(
                         new PDO($config['dsn'], $config['username'], $config['password']),
                         $config['table_name'],
                         $config['key_fieldname'],
                         $config['author_fieldname'] ?? '',
-                        $config['id_fieldname'] ?? ''
+                        $config['id_fieldname'] ?? '',
+                        $speciesGroupIds
                     );
                     break;
                 // Puedes agregar más casos según tus necesidades

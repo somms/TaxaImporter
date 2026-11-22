@@ -73,7 +73,13 @@ abstract class SpeciesProcessor extends Processor
      */
     protected function preProcessRow($rawItemName, $inputRow)
     {
-        $this->inputParser->setInput($rawItemName);
+        // Parsers de filas de BD necesitan el array completo, no solo el nombre.
+        if ($this->inputParser instanceof \Somms\BV2Observation\Provider\Observation\ObservationDBSpeciesParser
+            || $this->inputParser instanceof \Somms\BV2Observation\Provider\MycoBank\MycoBankDBSpeciesParser) {
+            $this->inputParser->setInput($inputRow);
+        } else {
+            $this->inputParser->setInput($rawItemName);
+        }
         return $this->inputParser->getSpecies();
     }
 
