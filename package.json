@@ -1,0 +1,20 @@
+{
+  "name": "bvimporter-playwright",
+  "version": "1.0.0",
+  "description": "Playwright server for BVImporter IUCN scraping",
+  "main": "bin/playwright-server.js",
+  "scripts": {
+    "start": "node bin/playwright-server.js",
+    "install-browsers": "npx playwright install chromium"
+  },
+  "keywords": [
+    "playwright",
+    "scraping",
+    "iucn"
+  ],
+  "author": "Julio Rabadán González",
+  "license": "proprietary",
+  "dependencies": {
+    "playwright": "^1.57.0"
+  }
+}
