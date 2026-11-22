@@ -7,7 +7,7 @@ default:
   input:
     type: datasource
     name: bv_coleoptera_database
-    parser: Forum4Images\BV\FloraSpeciesParser
+    parser: SpeciesParser
   output_ok:
     type: csv
     path: ./data/output/GBIF_ok_import.csv

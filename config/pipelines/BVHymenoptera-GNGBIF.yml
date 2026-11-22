@@ -1,0 +1,14 @@
+default:
+  name: 'Check Hymenoptera from BV database with GBIF using GNVerifier'
+  remote:
+    processor: GNames\GNSpeciesProcessor
+  input:
+    type: datasource
+    name: bv_hymenoptera_database # Datasource filename .yml
+    parser: SpeciesParser
+  output_ok:
+    type: pipeline
+    path: BVHymenoptera-GNGBIF_ObsDB
+  output_errors:
+    type: pipeline
+    path: BVHymenoptera-NoGBIF_ObsDB

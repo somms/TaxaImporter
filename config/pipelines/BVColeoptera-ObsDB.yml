@@ -1,0 +1,17 @@
+default:
+  name: 'Check Coleoptera from BV database with Observation.org'
+  remote: # Remote source processor configuration
+    processor: Observation\ObservationSpeciesProcessor # Processor class, including namespace path under /Provider
+    options: # Optional. Processor options, that will depend on every Processor class.
+      datasource: obs_species_database # In this processor, this is the datasource used by the processor for species matching
+      author_search: false # In this processor, use true to restrict species search by author
+  input:
+    type: datasource
+    name: bv_coleoptera_database # Datasource filename .yml
+    parser: SpeciesParser
+  output_ok: # Output for the correctly processed data
+    type: csv # Output type. It can be "csv" or "pipeline"
+    path: ./data/output/BV_Coleoptera-Observation_ok.csv
+  output_errors:
+    type: pipeline
+    path: BVColeoptera-NoObs-GNGBIF

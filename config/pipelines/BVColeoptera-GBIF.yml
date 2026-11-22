@@ -5,7 +5,7 @@ default:
   input:
     type: datasource
     name: bv_coleoptera_database # Datasource filename .yml
-    parser: Forum4Images\BV\FloraSpeciesParser
+    parser: SpeciesParser
   output_ok:
     type: pipeline
     path: BVColeoptera-GBIF_Obs_DB

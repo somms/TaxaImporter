@@ -2,9 +2,9 @@
 
 namespace Somms\BV2Observation\Provider\GNames;
 
-use Somms\BV2Observation\Parser\SpeciesParser;
+use Somms\BV2Observation\Parser\AbstractSpeciesParser;
 
-class GNSpeciesParser extends SpeciesParser
+class GNSpeciesParser extends AbstractSpeciesParser
 {
     protected function parseInput()
     {

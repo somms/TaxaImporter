@@ -26,7 +26,13 @@ class ProcessorService implements IProcessorService
 
         $baseNamespace = "Somms\BV2Observation\\Provider\\";
         $processorClassName = $baseNamespace . $pipeline->getRemoteProcessorName();
-        $speciesParserClassName = $baseNamespace . $pipeline->getInputParserName();
+
+        $parserId = $pipeline->getInputParserName();
+        $providerParserClass = $baseNamespace . $parserId;
+        $globalParserClass = "Somms\\BV2Observation\\Parser\\" . $parserId;
+        $speciesParserClassName = class_exists($providerParserClass)
+            ? $providerParserClass
+            : $globalParserClass;
 
         $processor = new $processorClassName(
             new $speciesParserClassName(),

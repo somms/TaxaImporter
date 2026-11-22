@@ -3,10 +3,10 @@
 namespace Somms\BV2Observation\Provider\WFO;
 
 use Somms\BV2Observation\Parser\GNames\GNParser\LocaBinGNSpeciesParser;
-use Somms\BV2Observation\Parser\SpeciesParser;
+use Somms\BV2Observation\Parser\AbstractSpeciesParser;
 use Somms\BV2Observation\Data\Species;
 
-class WFOSpeciesParser extends SpeciesParser
+class WFOSpeciesParser extends AbstractSpeciesParser
 {
     protected function parseInput()
     {

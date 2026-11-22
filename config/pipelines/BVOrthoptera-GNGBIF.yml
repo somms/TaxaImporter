@@ -5,7 +5,7 @@ default:
   input:
     type: datasource
     name: bv_orthoptera_database # Datasource filename .yml
-    parser: Forum4Images\BV\FloraSpeciesParser
+    parser: SpeciesParser
   output_ok:
     type: pipeline
     path: BVOrthoptera-GNGBIF_ObsDB

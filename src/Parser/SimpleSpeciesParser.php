@@ -5,12 +5,14 @@
  * Time: 20:18
  */
 
-  namespace Somms\BV2Observation\Provider\Forum4Images;
+namespace Somms\BV2Observation\Parser;
 
 use Somms\BV2Observation\Data\Species;
-use Somms\BV2Observation\Parser\SpeciesParser;
 
-class SpeciesStringParser extends SpeciesParser {
+/**
+ * Lightweight string parser: optional common/scientific split on "/", no author separation.
+ */
+class SimpleSpeciesParser extends AbstractSpeciesParser {
 
 
   /**

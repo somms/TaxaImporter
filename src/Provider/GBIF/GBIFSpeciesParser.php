@@ -2,9 +2,9 @@
 
 namespace Somms\BV2Observation\Provider\GBIF;
 
-use Somms\BV2Observation\Parser\SpeciesParser;
+use Somms\BV2Observation\Parser\AbstractSpeciesParser;
 
-class GBIFSpeciesParser extends SpeciesParser
+class GBIFSpeciesParser extends AbstractSpeciesParser
 {
 
     protected function parseInput()

@@ -1,48 +1,57 @@
 <?php
-/**
- * User: Julio. Somms Multimedia Solutions SL
- * Date: 27/10/2018
- * Time: 20:43
- */
 
 namespace Somms\BV2Observation\Parser;
 
+use Somms\BV2Observation\Parser\GNames\GNParser\LocaBinGNSpeciesParser;
 
-use Somms\BV2Observation\Data\Species;
+/**
+ * Default scientific-name parser: catalog cleanup + local gnparser (name + author).
+ */
+class SpeciesParser extends LocaBinGNSpeciesParser
+{
+    public function preprocessInput($input)
+    {
+        if(is_array($input)){
+            $input = $input['cat_name']; // Esto tendría que estar definido por el InputDataSource
+        }
+        if(str_starts_with($input, 'CULT')){
+            return false;
+        }
+        // Eliminamos las letras en mayúsculas del principio
+        $input = preg_replace('/^[A-Z]+\:? /', '', $input);
+        $input = preg_replace('/^[A-Z]+\:? /', '', $input);
 
-abstract class SpeciesParser implements ISpeciesParser {
-
-  protected $input;
-  protected $configOptions = array();
-
-  function __construct(array $configOptions = []){
-      $this->configOptions = $configOptions;
-  }
-
-  public function preprocessInput($input){
-    return $input;
-  }
-
-  public function setInput($input){
-    $this->input = $this->preprocessInput($input);
-  }
-
-  /**
-   * @return Species
-   */
-  abstract protected function parseInput();
-
-  /**
-   * Returns a Species from the inputString
-   * @return null|Species
-   */
-  public function getSpecies(){
-    $result = null;
-    if($this->input != null){
-      $result = $this->parseInput();
+        // Borramos palabras que no son forman parte del nombre
+        $input = str_replace([
+            'División ',
+            'Phylum ',
+            'Subphylum ',
+            'Infraphylum ',
+            'Clase ',
+            'Subclase ',
+            'Infraclase ',
+            'Superorden ',
+            'Orden ',
+            'Suborden ',
+            'Sección ',
+            'Superfamilia ',
+            'Familia ',
+            'Fam. ',
+            'Subfam. ',
+            'Subfamilia ',
+            'Tribu ',
+            'Tribus ',
+            'Trib. ',
+            'Subtribu ',
+            'Género ',
+            'Genero ',
+            'Gen. ',
+            'Genus ',
+            'Subgénero ',
+            'Subgenero ',
+            'Subgenus '
+        ], '', $input);
+        return parent::preprocessInput($input);
     }
 
-    return $result;
-  }
-
-} 
+}

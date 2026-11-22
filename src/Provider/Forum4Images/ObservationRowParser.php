@@ -10,6 +10,7 @@ namespace Somms\BV2Observation\Provider\Forum4Images;
 
 use Somms\BV2Observation\Data\Observation;
 use Somms\BV2Observation\Parser\ObservationParser;
+use Somms\BV2Observation\Parser\SimpleSpeciesParser;
 
 class ObservationRowParser extends ObservationParser{
 
@@ -59,7 +60,7 @@ class ObservationRowParser extends ObservationParser{
 
   public function prepareSpecies($speciesName){
 
-    $speciesParser = new SpeciesStringParser();
+    $speciesParser = new SimpleSpeciesParser();
     $speciesParser->setInput($speciesName);
     $species = $speciesParser->getSpecies();
     return $species->getScientificName();

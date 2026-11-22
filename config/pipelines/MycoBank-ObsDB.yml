@@ -1,0 +1,17 @@
+default:
+  name: 'Check MycoBank taxa against Observation.org Setas and Musgos/Líquenes'
+  remote:
+    processor: Observation\ObservationSpeciesProcessor
+    options:
+      datasource: obs_species_fungi_database
+      author_search: false
+  input:
+    type: datasource
+    name: mycobank_database
+    parser: MycoBank\MycoBankDBSpeciesParser
+  output_ok:
+    type: csv
+    path: ./data/output/MycoBank-Observation_ok.csv
+  output_errors:
+    type: csv
+    path: ./data/output/MycoBank-Observation_error.csv

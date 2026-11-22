@@ -10,9 +10,9 @@ namespace Somms\BV2Observation\Provider\Observation;
 
 use Somms\BV2Observation\Data\RemoteSpecies;
 use Somms\BV2Observation\Data\Species;
-use Somms\BV2Observation\Parser\SpeciesParser;
+use Somms\BV2Observation\Parser\AbstractSpeciesParser;
 
-class ObservationWebSpeciesParser extends SpeciesParser {
+class ObservationWebSpeciesParser extends AbstractSpeciesParser {
 
   /**
    * @return RemoteSpecies

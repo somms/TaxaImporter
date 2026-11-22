@@ -1,0 +1,14 @@
+default:
+  name: 'Check Coleoptera from BV database with GBIF using GNVerifier'
+  remote:
+    processor: GNames\GNSpeciesProcessor
+  input:
+    type: datasource
+    name: bv_coleoptera_database # Datasource filename .yml
+    parser: SpeciesParser
+  output_ok:
+    type: pipeline
+    path: BVColeoptera-GNGBIF_ObsDB
+  output_errors:
+    type: pipeline
+    path: BVColeoptera-NoGBIF_ObsDB

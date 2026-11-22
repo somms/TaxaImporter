@@ -1,0 +1,13 @@
+default:
+  name: 'Check mix (other families) from BV database with GBIF using GNVerifier'
+  remote:
+    processor: GNames\GNSpeciesProcessor
+  input: # Input source configuration. This will be ignored if this pipeline is uses as output of other pipeline
+    type: null
+    parser: SpeciesParser # Species name parser for this source
+  output_ok:
+    type: pipeline
+    path: BVMicro-NoObs_GNGBIF_ObsDB
+  output_errors: # Output for the errors
+    type: csv # Output type. It can be "csv" or "pipeline"
+    path: ././data/output/BV_Micro-Observation_error-GBIF_error.csv

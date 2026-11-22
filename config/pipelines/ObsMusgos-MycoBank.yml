@@ -1,0 +1,16 @@
+default:
+  name: 'Verify Observation.org Musgos y Líquenes (group 12) against MycoBank'
+  remote:
+    processor: MycoBank\MycoBankSpeciesProcessor
+    options:
+      datasource: mycobank_database
+  input:
+    type: datasource
+    name: obs_species_mosses_lichens_database
+    parser: Observation\ObservationDBSpeciesParser
+  output_ok:
+    type: csv
+    path: ./data/output/ObsMusgos-MycoBank_ok.csv
+  output_errors:
+    type: csv
+    path: ./data/output/ObsMusgos-MycoBank_errors.csv

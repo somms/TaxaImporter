@@ -144,7 +144,7 @@ default:
   input:
     type: datasource
     name: bv_diptera_database # Datasource filename .yml
-    parser: Forum4Images\BV\FloraSpeciesParser
+    parser: SpeciesParser
   output_ok:
     type: pipeline
     path: BVDiptera-GNGBIF_ObsDB
@@ -168,7 +168,7 @@ default: # Pipeline definition file, including input, outputs and the processor 
       author_search: false # In this processor, use true to restrict species search by author
   input: # Input source configuration. This will be ignored if this pipeline is uses as output of other pipeline
     type: null
-    parser: Forum4Images\BV\FloraSpeciesParser # Species name parser for this source
+    parser: SpeciesParser # Species name parser for this source
   output_ok: # Output for the correctly processed data
     type: csv # Output type. It can be "csv" or "pipeline"
     path: ./data/output/BVDipteraObservation_ok.csv # The path to the output file for CSV, or the name of the pipeline config file
@@ -192,7 +192,7 @@ default: # Pipeline definition file, including input, outputs and the processor 
       author_search: false # In this processor, use true to restrict species search by author
   input: # Input source configuration. This will be ignored if this pipeline is uses as output of other pipeline
     type: null
-    parser: Forum4Images\BV\FloraSpeciesParser # Species name parser for this source
+    parser: SpeciesParser # Species name parser for this source
   output_ok: # Output for the correctly processed data
     type: csv # Output type. It can be "csv" or "pipeline"
     path: ./data/output/BV_Diptera-GBIF_error-Observation_ok.csv # The path to the output file for CSV, or the name of the pipeline config file

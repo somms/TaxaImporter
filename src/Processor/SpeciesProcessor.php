@@ -12,7 +12,7 @@ use Somms\BV2Observation\Data\Species;
 use Somms\BV2Observation\DataOutput\DataOutputInterface;
 use Somms\BV2Observation\Event\ProcessorEvent;
 use Somms\BV2Observation\Parser\ISpeciesParser;
-use Somms\BV2Observation\Parser\SpeciesParser;
+use Somms\BV2Observation\Parser\AbstractSpeciesParser;
 use Somms\BV2Observation\Provider\Forum4Images\CSV\Species4ImagesCSVSource;
 use Somms\BV2Observation\Source\DataSourceInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -21,7 +21,7 @@ abstract class SpeciesProcessor extends Processor
 {
 
     /**
-     * @var SpeciesParser
+     * @var AbstractSpeciesParser
      */
     protected $inputParser;
     /**

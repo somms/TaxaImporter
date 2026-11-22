@@ -10,7 +10,6 @@ use Somms\BV2Observation\DataOutput\DataOutputInterface;
 use Somms\BV2Observation\Parser\ISpeciesParser;
 use Somms\BV2Observation\Processor\SpeciesProcessor;
 use Somms\BV2Observation\Provider\Forum4Images\CSV\Species4ImagesCSVSource;
-use Somms\BV2Observation\Provider\Forum4Images\SpeciesStringParser;
 use Somms\BV2Observation\Provider\GBIF\GBIFSpeciesParser;
 use Somms\BV2Observation\Source\DataSourceInterface;
 

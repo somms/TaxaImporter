@@ -1,0 +1,18 @@
+default:
+  name: 'Verify mammals species from obs_species_mammals table with MDD'
+  remote:
+    processor: MDD\MDDSpeciesProcessor
+    options:
+      datasource:
+        main: mdd_species_database       # definido en config/datasources/mdd_species.yml
+        synonyms: mdd_synonyms_database  # definido en config/datasources/mdd_synonyms.yml
+  input:
+    type: datasource
+    name: obs_species_mammals_database
+    parser: Observation\ObservationDBSpeciesParser
+  output_ok:
+    type: csv
+    path: ./data/output/ObsMammals-MDD_ok.csv
+  output_errors:
+    type: csv
+    path: ./data/output/ObsMammals-MDD_errors.csv

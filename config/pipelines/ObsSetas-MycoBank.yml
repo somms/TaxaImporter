@@ -1,0 +1,16 @@
+default:
+  name: 'Verify Observation.org Setas (group 11) against MycoBank'
+  remote:
+    processor: MycoBank\MycoBankSpeciesProcessor
+    options:
+      datasource: mycobank_database
+  input:
+    type: datasource
+    name: obs_species_setas_database
+    parser: Observation\ObservationDBSpeciesParser
+  output_ok:
+    type: csv
+    path: ./data/output/ObsSetas-MycoBank_ok.csv
+  output_errors:
+    type: csv
+    path: ./data/output/ObsSetas-MycoBank_errors.csv

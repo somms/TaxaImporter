@@ -2,10 +2,10 @@
 
 namespace Somms\BV2Observation\Provider\POWO;
 
-use Somms\BV2Observation\Parser\SpeciesParser;
+use Somms\BV2Observation\Parser\AbstractSpeciesParser;
 use Somms\PHPKew\POWO\Enums\Name;
 
-class POWOSpeciesParser extends SpeciesParser
+class POWOSpeciesParser extends AbstractSpeciesParser
 {
 
     protected function parseInput()

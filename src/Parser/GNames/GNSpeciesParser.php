@@ -6,9 +6,9 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Somms\BV2Observation\Data\Species;
-use Somms\BV2Observation\Parser\SpeciesParser;
+use Somms\BV2Observation\Parser\AbstractSpeciesParser;
 
-abstract class GNSpeciesParser extends SpeciesParser
+abstract class GNSpeciesParser extends AbstractSpeciesParser
 {
     /**
      * @inheritDoc

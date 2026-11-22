@@ -5,7 +5,7 @@ default:
   input:
     type: csv
     name: wfo_input_csv
-    parser: Forum4Images\SpeciesStringParser
+    parser: SimpleSpeciesParser
   output_ok:
     type: csv
     path: ./data/output/WFO_gnverifier_ok.csv

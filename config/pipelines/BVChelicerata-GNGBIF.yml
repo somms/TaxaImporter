@@ -1,0 +1,14 @@
+default:
+  name: 'Check Chelicerata from BV database with GBIF using GNVerifier'
+  remote:
+    processor: GNames\GNSpeciesProcessor
+  input:
+    type: datasource
+    name: bv_chelicerata_database # Datasource filename .yml
+    parser: SpeciesParser
+  output_ok:
+    type: pipeline
+    path: BVChelicerata-GNGBIF_ObsDB
+  output_errors:
+    type: pipeline
+    path: BVChelicerata-NoGBIF_ObsDB

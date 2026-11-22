@@ -2,9 +2,9 @@
 
 namespace Somms\BV2Observation\Provider\Forum4Images\BV;
 
-use Somms\BV2Observation\Provider\Forum4Images\BV\FloraSpeciesParser;
+use Somms\BV2Observation\Parser\SpeciesParser;
 
-class RoadkillSpeciesParser extends FloraSpeciesParser
+class RoadkillSpeciesParser extends SpeciesParser
 {
     public function preprocessInput($input){
         if(is_array($input)){
