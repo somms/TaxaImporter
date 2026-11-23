@@ -1,0 +1,9 @@
+mdd_synonyms_database: # This is the datasource ID, and should match the filename
+  type: 'database' # Datasource type: 'database', 'csv' or 'null'
+  dsn: 'pgsql:host=localhost;port=25432;dbname=waarneming' # For database type, the DSN with the connection string
+  username: 'docker' # For database type, the username for the database
+  password: 'docker' # For database type, the password for the database
+  table_name: 'mdd_synonyms' # For database type, the table to search for the species
+  key_fieldname: 'MDD_original_combination' # The field containing the species name
+  author_fieldname: 'MDD_author' # The field containing the species authorship
+  id_fieldname: 'MDD_syn_ID' # The field containing the species unique identifier

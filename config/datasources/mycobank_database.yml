@@ -1,0 +1,9 @@
+mycobank_database:
+  type: 'database'
+  dsn: 'pgsql:host=localhost;port=25432;dbname=waarneming'
+  username: 'docker'
+  password: 'docker'
+  table_name: 'mycobank_species'
+  key_fieldname: 'taxon_name'
+  author_fieldname: 'authors_abbreviated'
+  id_fieldname: 'mycobank_number'
